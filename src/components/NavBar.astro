@@ -1,0 +1,70 @@
+---
+import HamburgerIcon from '@/icons/Hamburger.astro'
+
+const NAVBAR_ITEMS = [
+  {
+    name: 'Sign In',
+    href: '/auth'
+  }
+]
+
+const { pathname } = Astro.url
+
+const isAuthPage = pathname === '/auth'
+---
+
+<nav class="flex items-center justify-between sticky py-4 top-0 z-40">
+  <a
+    href="/"
+    class="text-sm sm:text-base md:text-2xl font-bold text-[#193138] flex items-center gap-1"
+    title="KOS'BOOK Logo"
+  >
+    <span class="sr-only">KOS'BOOK | Documentation Tool</span>
+    KOS'BOOK | Documentation Tool
+  </a>
+
+  {
+    !isAuthPage && (
+      <>
+        <div class="hidden sm:flex space-x-1">
+          {NAVBAR_ITEMS.map(({ href, name }) => (
+            <a
+              href={href}
+              title={name}
+              class="bg-ziggurat-950/95 hover:bg-ziggurat-950 text-xs sm:text-base md:text-lg rounded-lg px-2 py-1 transition-all duration-300 ease-in-out"
+            >
+              <span class="sr-only">{name}</span>
+              {name}
+            </a>
+          ))}
+        </div>
+        <div class="sm:hidden">
+          <button
+            id="hamburger"
+            class="focus:outline-none hover:bg-zinc-950 rounded-lg px-2 py-1 transition-all duration-300 ease-in-out"
+          >
+            <span class="sr-only">Menu</span>
+            <HamburgerIcon />
+          </button>
+        </div>
+      </>
+    )
+  }
+</nav>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    const hamburgerButton = document.getElementById('hamburger')
+    const navLinks = document.querySelector('.sm\\:flex')
+
+    hamburgerButton.addEventListener('click', () => {
+      navLinks.classList.toggle('hidden')
+    })
+
+    navLinks.childNodes.forEach((link) => {
+      link.addEventListener('click', () => {
+        navLinks.classList.add('hidden')
+      })
+    })
+  })
+</script>

@@ -1,0 +1,30 @@
+---
+import MainHeader from '@/components/MainHeader.astro'
+import GitHubIcon from '@/icons/GitHub.astro'
+import GoogleIcon from '@/icons/Google.astro'
+import Layout from '@/layouts/Layout.astro'
+---
+
+<Layout
+  title="KOS'BOOK | The next Documentation Tool"
+  description="KOS'BOOK is a new documentation tool that will help you to create and manage your documentation."
+>
+  <MainHeader />
+
+  <section class="flex justify-center space-x-6">
+    <button
+      class="flex items-center gap-2 text-2xl bg-ziggurat-950/95 hover:bg-ziggurat-950 rounded-2xl w-auto h-12 px-4 py-1"
+    >
+      <GoogleIcon className="size-8" />
+      <span class="sr-only">Google</span>
+      Google
+    </button>
+    <button
+      class="flex items-center gap-2 text-2xl bg-ziggurat-950/95 hover:bg-ziggurat-950 rounded-2xl w-auto h-12 px-4 py-1"
+    >
+      <GitHubIcon className="size-8" />
+      <span class="sr-only">GitHub</span>
+      GitHub
+    </button>
+  </section>
+</Layout>

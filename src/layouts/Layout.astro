@@ -1,0 +1,31 @@
+---
+import NavBar from '@/components/NavBar.astro'
+
+interface Props {
+  title: string
+  description: string
+}
+
+const { title, description } = Astro.props
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/kos-book.webp" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body
+    class="bg-gradient-to-t from-ziggurat-700 to-ziggurat-900 text-neutral-100 min-h-screen"
+  >
+    <main class="container mx-auto px-8 max-w-[1100px]">
+      <NavBar />
+
+      <slot />
+    </main>
+  </body>
+</html>
