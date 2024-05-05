@@ -1,8 +1,16 @@
 ---
+import { getSession } from 'auth-astro/server'
+
 import MainHeader from '@/components/MainHeader.astro'
 import GitHubIcon from '@/icons/GitHub.astro'
 import GoogleIcon from '@/icons/Google.astro'
 import Layout from '@/layouts/Layout.astro'
+
+const session = await getSession(Astro.request)
+
+if (session) {
+  return Astro.redirect('/')
+}
 ---
 
 <Layout
@@ -13,6 +21,7 @@ import Layout from '@/layouts/Layout.astro'
 
   <section class="flex justify-center space-x-6">
     <button
+      id="google-sign-in"
       class="flex items-center gap-2 text-2xl bg-ziggurat-950/95 hover:bg-ziggurat-950 rounded-2xl w-auto h-12 px-4 py-1"
     >
       <GoogleIcon className="size-8" />
@@ -20,6 +29,7 @@ import Layout from '@/layouts/Layout.astro'
       Google
     </button>
     <button
+      id="github-sign-in"
       class="flex items-center gap-2 text-2xl bg-ziggurat-950/95 hover:bg-ziggurat-950 rounded-2xl w-auto h-12 px-4 py-1"
     >
       <GitHubIcon className="size-8" />
@@ -28,3 +38,23 @@ import Layout from '@/layouts/Layout.astro'
     </button>
   </section>
 </Layout>
+
+<script>
+  const { signIn, signOut } = await import('auth-astro/client')
+
+  const githubSignInButton = document.getElementById('github-sign-in')
+  const googleSignInButton = document.getElementById('google-sign-in')
+  const signOutButton = document.getElementById('sign-out')
+
+  githubSignInButton?.addEventListener('click', async () => {
+    signIn('github')
+  })
+
+  googleSignInButton?.addEventListener('click', async () => {
+    signIn('google')
+  })
+
+  signOutButton?.addEventListener('click', async () => {
+    signOut()
+  })
+</script>

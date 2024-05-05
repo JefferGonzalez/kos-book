@@ -1,16 +1,14 @@
 ---
-import HamburgerIcon from '@/icons/Hamburger.astro'
+import { getSession } from 'auth-astro/server'
 
-const NAVBAR_ITEMS = [
-  {
-    name: 'Sign In',
-    href: '/auth'
-  }
-]
+import { NAVBAR_PATHS } from '@/consts/paths'
+import HamburgerIcon from '@/icons/Hamburger.astro'
 
 const { pathname } = Astro.url
 
 const isAuthPage = pathname === '/auth'
+
+const session = await getSession(Astro.request)
 ---
 
 <nav class="flex items-center justify-between sticky py-4 top-0 z-40">
@@ -24,12 +22,12 @@ const isAuthPage = pathname === '/auth'
   </a>
 
   {
-    !isAuthPage && (
-      <>
+    !isAuthPage && !session?.user && (
+      <Fragment>
         <div class="hidden sm:flex space-x-1">
-          {NAVBAR_ITEMS.map(({ href, name }) => (
+          {NAVBAR_PATHS.map(({ name, path }) => (
             <a
-              href={href}
+              href={path}
               title={name}
               class="bg-ziggurat-950/95 hover:bg-ziggurat-950 text-xs sm:text-base md:text-lg rounded-lg px-2 py-1 transition-all duration-300 ease-in-out"
             >
@@ -47,24 +45,48 @@ const isAuthPage = pathname === '/auth'
             <HamburgerIcon />
           </button>
         </div>
-      </>
+      </Fragment>
+    )
+  }
+
+  {
+    session?.user && (
+      <button
+        id="sign-out"
+        title="Cerrar sesión"
+        class="flex items-center gap-2 bg-ziggurat-950/95 text-xs sm:text-base md:text-lg hover:bg-ziggurat-950 rounded-lg px-2 py-1"
+      >
+        <img
+          src={session.user.image}
+          alt={session.user.name}
+          title="Cerrar sesión"
+          class="size-6 rounded-full"
+        />
+        <span class="sr-only">Cerrar sesión</span>
+        Cerrar sesión
+      </button>
     )
   }
 </nav>
 
-<script is:inline>
-  document.addEventListener('DOMContentLoaded', () => {
-    const hamburgerButton = document.getElementById('hamburger')
-    const navLinks = document.querySelector('.sm\\:flex')
+<script>
+  const { signOut } = await import('auth-astro/client')
 
-    hamburgerButton.addEventListener('click', () => {
-      navLinks.classList.toggle('hidden')
-    })
+  const hamburgerButton = document.getElementById('hamburger')
+  const navLinks = document.querySelector('.sm\\:flex')
+  const signOutButton = document.getElementById('sign-out')
 
-    navLinks.childNodes.forEach((link) => {
-      link.addEventListener('click', () => {
-        navLinks.classList.add('hidden')
-      })
+  hamburgerButton?.addEventListener('click', () => {
+    navLinks?.classList.toggle('hidden')
+  })
+
+  navLinks?.childNodes.forEach((link) => {
+    link.addEventListener('click', () => {
+      navLinks.classList.add('hidden')
     })
+  })
+
+  signOutButton?.addEventListener('click', async () => {
+    await signOut()
   })
 </script>
