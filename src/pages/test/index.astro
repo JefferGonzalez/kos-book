@@ -1,0 +1,92 @@
+---
+import { getSession } from 'auth-astro/server'
+
+
+import Layout from '@/layouts/Layout.astro'
+
+const session = await getSession(Astro.request)
+console.log(session)
+
+---
+
+<Layout
+  title="KOS'BOOK | The next Documentation Tool"
+  description="KOS'BOOK is a new documentation tool that will help you to create and manage your documentation."
+>
+  
+
+  <section class="flex flex-col items-center  space-x-6 mt-12 ">
+    <h1 class="text-white text-3xl font-bold mb-4">Upload your code!</h1>
+    <form class="bg-ziggurat-700 shadow-md rounded px-8 pt-6 pb-8 mb-4 min-w-[334px]" method="post" enctype="multipart/form-data">
+      <div class="mb-4">
+        <label class="block text-gray-900 text-sm font-bold mb-2" for="projectName">
+          Project's name
+        </label>
+        <input 
+          class="bg-ziggurat-750 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+          id="projectName" 
+          type="text" 
+          placeholder="Write the name of the project" 
+          name="projectName" 
+          required
+        />
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-900 text-sm font-bold mb-2" for="description">
+          Description
+        </label>
+        <textarea 
+          class="bg-ziggurat-750 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+          id="description" 
+          placeholder="Write the project description" 
+          name="description" 
+          required
+          
+          
+          
+        ></textarea>
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-900 text-sm font-bold mb-2" for="code">
+          Code
+        </label>
+        <input 
+          class="hidden" 
+          id="code" 
+          type="file" 
+          name="code" 
+          accept=".zip" 
+          multiple
+          required
+          onchange="document.getElementById('file-name').textContent = this.files[0].name"
+        />
+        <label 
+            for="code" 
+            class="bg-ziggurat-50 text-ziggurat-900 border w-full border-gray-300 rounded cursor-pointer py-2 px-4 inline-flex items-center">
+            Choose file
+          </label>
+          <span id="file-name" class="ml-2 text-white"></span>
+      </div>
+      <div class="flex items-center justify-center">
+        <button 
+          class="bg-ziggurat-850 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
+          type="submit">
+          Save
+        </button>
+      </div>
+    </form>
+  </section>
+</Layout>
+
+<script>
+  const { signIn, signOut } = await import('auth-astro/client')
+
+  
+  const signOutButton = document.getElementById('sign-out')
+
+ 
+
+  signOutButton?.addEventListener('click', async () => {
+    signOut()
+  })
+</script>
