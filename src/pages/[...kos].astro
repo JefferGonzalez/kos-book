@@ -1,0 +1,124 @@
+---
+import { MarkdownRenderer } from '@/components/MarkdownRenderer'
+import Layout from '@/layouts/Layout.astro'
+
+const { kos } = Astro.params
+
+const info = {
+  code: 200,
+  data: {
+    description: 'Description of project Counter App with Web Components',
+    modules: [
+      {
+        description: 'Description of module components',
+        files: [
+          {
+            description:
+              "# Overview\nThe provided code defines a custom HTML element `custom-button` that represents a button with customizable styles (primary, secondary, or danger).\n\n# Functionality\n- **`CustomButton` Class**: \n  - Constructs a custom button element with different styles based on the attributes: `primary`, `secondary`, and `danger`.\n  - Appends a button element to the shadow DOM with a label.\n  - Appends a stylesheet link for styling the button.\n\n# Parameters\n- **No parameters**: The code does not have explicit function definitions with parameters. However, the attributes used within the `CustomButton` class are indirectly passed as parameters via the element's attributes.\n\n# Return Values\n- **No return values**: The functions in",
+            name: 'button.js',
+            path: 'components/button.js'
+          }
+        ],
+        name: 'components'
+      },
+      {
+        description: 'Description of module Counter App with Web Components',
+        files: [
+          {
+            description:
+              '# Overview\nThe provided code is an HTML file that implements a simple counter application using web components. It consists of a counter display, three custom buttons for incrementing, decrementing, and resetting the counter, and references to external JavaScript files for defining the custom button component and implementing the counter logic.\n\n# Functionality\n1. **Button Component (button.js)**:\n   - This script defines a custom button component called `custom-button`.\n   - The component can have different styles based on the presence of certain attributes like `danger` and `secondary`.\n   \n2. **Counter Logic (index.js)**:\n   - Manages the functionality of the counter application.\n   - Implements the logic for incrementing, decrementing, and resetting the counter value',
+            name: 'index.html',
+            path: 'index.html'
+          },
+          {
+            description:
+              "## Overview\nThis code implements a simple counter application that allows users to increment, decrement, and reset a counter value displayed on the webpage. The counter value is persisted using the browser's localStorage.\n\n## Functionality\n1. **DOMContentLoaded Event Listener**: Initializes the counter application when the DOM content has finished loading.\n2. **$(id)**: Selects an element by its id.\n3. **updateCounter()**: Updates the displayed counter value on the webpage.\n4. **setCounter(value)**: Sets the counter value to the provided value, updates the display, and saves the value to localStorage.\n5. **saveCounter()**: Saves the current counter value to the browser's localStorage.\n6. **loadCounter()**: Retrieves the counter value",
+            name: 'index.js',
+            path: 'index.js'
+          }
+        ],
+        name: 'Counter App with Web Components'
+      }
+    ],
+    name: 'Counter App with Web Components'
+  },
+  message: 'Documentation generated successfully'
+}
+
+const content = `### CustomButton Class Documentation
+
+#### Overview
+The \u0060CustomButton\u0060 class is a custom web component that extends the standard HTML element. It creates a button with customizable styles and labels, and encapsulates its internal structure and style using the Shadow DOM.
+
+#### Functionality
+The \u0060CustomButton\u0060 class encapsulates the following functionalities:
+
+- **Constructor**: Initializes the custom button element, sets up the Shadow DOM, creates a button element, and applies styles based on attributes.
+
+#### Parameters
+The \u0060CustomButton\u0060 class does not have parameters for its constructor. However, the element uses the following HTML attributes to determine its behavior:
+
+- **label**: A string that sets the text content of the button.
+- **primary**: An optional attribute that applies the 'primary' CSS class to the button.
+- **secondary**: An optional attribute that applies the 'secondary' CSS class to the button.
+- **danger**: An optional attribute that applies the 'danger' CSS class to the button.
+
+#### Return Values
+The \u0060CustomButton\u0060 class does not return any values. It directly manipulates the DOM to render the custom button.
+
+#### Examples
+
+**HTML Usage Example:**
+\u0060\u0060\u0060js
+class CustomButton extends HTMLElement {
+  constructor() {
+    super()
+    this.attachShadow({ mode: 'open' })
+
+    const button = document.createElement('button')
+    button.textContent = this.getAttribute('label')
+
+    const styleLink = document.createElement('link')
+    styleLink.setAttribute('rel', 'stylesheet')
+    styleLink.setAttribute('href', 'components/button.css')
+
+    this.shadowRoot.append(styleLink, button)
+
+    if (this.hasAttribute('primary')) {
+      button.classList.add('primary')
+    } else if (this.hasAttribute('secondary')) {
+      button.classList.add('secondary')
+    } else if (this.hasAttribute('danger')) {
+      button.classList.add('danger')
+    } else {
+      button.classList.add('primary')
+    }
+  }
+}
+
+customElements.define('custom-button', CustomButton)
+
+\u0060\u0060\u0060
+
+#### Error Handling
+The \u0060CustomButton\u0060 class does not include explicit error handling. Potential errors might include:
+
+- **Missing Stylesheet**: If the specified stylesheet (\u0060components/button.css\u0060) is not found, the button might not render as intended.
+- **Invalid Attributes**: If attributes other than \u0060primary\u0060, \u0060secondary\u0060, or \u0060danger\u0060 are used, the default 'primary' class is applied without any error.
+
+#### Edge Cases
+The code handles the following edge cases:
+
+- **No Label Attribute**: If the \u0060label\u0060 attribute is not provided, the button's text content will be empty.
+- **Multiple Style Attributes**: If multiple style attributes (\u0060primary\u0060, \u0060secondary\u0060, \u0060danger\u0060) are present, only the first one found is applied, and no error is thrown.
+- **No Style Attributes**: If no style attribute is provided, the button defaults to the 'primary' class.
+
+By using the \u0060CustomButton\u0060 class, developers can create styled button components that are consistent and encapsulated, improving the modularity and maintainability of their web applications.`
+---
+
+<Layout
+  title="Project Documentation"
+  description="Documentation for the Counter App with Web Components project"
+>
+  <MarkdownRenderer content={content} />
+</Layout>
