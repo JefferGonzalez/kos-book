@@ -1,5 +1,6 @@
 ---
 import NavBar from '@/components/NavBar.astro'
+import { Toaster } from 'sonner'
 
 interface Props {
   title: string
@@ -26,6 +27,8 @@ const { title, description } = Astro.props
       <NavBar />
 
       <slot />
+
+      <Toaster client:only />
     </main>
   </body>
 </html>
