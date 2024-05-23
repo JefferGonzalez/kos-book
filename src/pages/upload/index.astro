@@ -5,7 +5,10 @@ import { getSession } from 'auth-astro/server'
 import Layout from '@/layouts/Layout.astro'
 
 const session = await getSession(Astro.request)
-console.log(session)
+
+if (!session) {
+  return Astro.redirect('/')
+}
 
 ---
 

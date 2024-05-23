@@ -1,7 +1,12 @@
 ---
+import { getSession } from 'auth-astro/server'
+
+
 import MainHeader from '@/components/MainHeader.astro'
 import GitHubIcon from '@/icons/GitHub.astro'
 import Layout from '@/layouts/Layout.astro'
+
+const session = await getSession(Astro.request)
 ---
 
 <Layout
@@ -12,7 +17,7 @@ import Layout from '@/layouts/Layout.astro'
 
   <section class="flex justify-center space-x-6">
     <a
-      href="/auth"
+      href={session ? '/upload' : '/auth'}
       class="flex items-center gap-2 text-2xl bg-ziggurat-950/95 hover:bg-ziggurat-950 rounded-2xl w-auto h-12 px-4 py-1"
     >
       <span class="sr-only">Start Free</span>
