@@ -11,7 +11,7 @@ const isAuthPage = pathname === '/auth'
 const session = await getSession(Astro.request)
 ---
 
-<nav class="flex items-center justify-between sticky py-4 top-0 z-40">
+<nav class="flex items-center justify-between backdrop-blur sticky py-4 top-0 z-40">
   <a
     href="/"
     class="text-sm sm:text-base md:text-2xl font-bold text-[#193138] flex items-center gap-1"

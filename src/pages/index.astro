@@ -31,13 +31,3 @@ const session = await getSession(Astro.request)
     </button>
   </section>
 </Layout>
-
-<script>
-  const response = await fetch('/api/get-session-token.json')
-
-  if (response.ok) {
-    const session = await response.json()
-
-    console.log(session)
-  }
-</script>
