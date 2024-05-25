@@ -1,6 +1,7 @@
 ---
 import { MarkdownRenderer } from '@/components/MarkdownRenderer'
 import DocsLayout from '@/layouts/DocsLayout.astro'
+import { Toaster } from 'sonner'
 
 const { kos } = Astro.params
 
@@ -34,7 +35,9 @@ const otherModules = modules.filter((module: any) => module.name !== kos)
     >
       {projectName}
     </h1>
-    <h4 class="text-base text-gray-600 dark:text-gray-400 sm:text-lg md:text-xl text-pretty">
+    <h4
+      class="text-base text-gray-600 dark:text-gray-400 sm:text-lg md:text-xl text-pretty"
+    >
       {projectDescription}
     </h4>
   </header>
@@ -68,4 +71,6 @@ const otherModules = modules.filter((module: any) => module.name !== kos)
       ))
     }
   </section>
+
+  <Toaster client:only="react" />
 </DocsLayout>

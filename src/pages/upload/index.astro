@@ -2,6 +2,7 @@
 import { getSession } from 'auth-astro/server'
 
 import Layout from '@/layouts/Layout.astro'
+import { Toaster } from 'sonner'
 
 const session = await getSession(Astro.request)
 
@@ -81,6 +82,8 @@ if (!session) {
       </div>
     </form>
   </section>
+
+  <Toaster client:only="react" />
 </Layout>
 
 <script>
