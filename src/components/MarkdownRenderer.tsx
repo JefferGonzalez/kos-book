@@ -7,7 +7,7 @@ interface Props {
 
 export const MarkdownRenderer = ({ content }: Props) => {
   return (
-    <div className="prose prose-sm sm:prose lg:prose-lg xl:prose-xl mx-auto">
+    <div className="m-2 prose prose-xl max-w-none">
       <ReactMarkdown
         className="text-white"
         components={{

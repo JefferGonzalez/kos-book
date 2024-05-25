@@ -47,13 +47,17 @@ const otherModules = modules.filter((module: any) => module.name !== kos)
   <section>
     {
       index.files.map((file: any) => (
-        <article class="mt-4">
-          <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 sm:text-3xl md:text-4xl">
-            Module: {file.name}
-          </h2>
+        <Fragment>
+          <article class="mt-4">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 sm:text-3xl md:text-4xl">
+              Module: {file.name}
+            </h2>
 
-          <MarkdownRenderer client:idle content={file.description} />
-        </article>
+            <MarkdownRenderer client:idle content={file.description} />
+          </article>
+
+          <hr />
+        </Fragment>
       ))
     }
 
@@ -61,13 +65,20 @@ const otherModules = modules.filter((module: any) => module.name !== kos)
 
     {
       otherModules.map((module: any) => (
-        <article class="mt-4">
-          <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 sm:text-3xl md:text-4xl">
-            Module: {module.name + '/' + module.files[0].name}
-          </h2>
+        <Fragment>
+          <article class="mt-4">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 sm:text-3xl md:text-4xl">
+              Module: {module.name + '/' + module.files[0].name}
+            </h2>
 
-          <MarkdownRenderer client:idle content={module.files[0].description} />
-        </article>
+            <MarkdownRenderer
+              client:idle
+              content={module.files[0].description}
+            />
+          </article>
+
+          <hr />
+        </Fragment>
       ))
     }
   </section>
