@@ -22,8 +22,6 @@ const modules = data.documentation.modules
 const index = modules.find((module: any) => module.name === kos)
 
 const otherModules = modules.filter((module: any) => module.name !== kos)
-
-console.log(otherModules)
 ---
 
 <DocsLayout
@@ -51,7 +49,7 @@ console.log(otherModules)
             Module: {file.name}
           </h2>
 
-          <MarkdownRenderer content={file.description} />
+          <MarkdownRenderer client:idle content={file.description} />
         </article>
       ))
     }
@@ -65,7 +63,7 @@ console.log(otherModules)
             Module: {module.name + '/' + module.files[0].name}
           </h2>
 
-          <MarkdownRenderer content={module.files[0].description} />
+          <MarkdownRenderer client:idle content={module.files[0].description} />
         </article>
       ))
     }

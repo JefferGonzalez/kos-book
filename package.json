@@ -27,12 +27,13 @@
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-markdown": "9.0.1",
-    "rehype-highlight": "7.0.0",
+    "react-syntax-highlighter": "15.5.0",
     "sonner": "1.4.41",
     "tailwindcss": "3.4.3",
     "typescript": "5.4.5"
   },
   "devDependencies": {
+    "@types/react-syntax-highlighter": "15.5.13",
     "@typescript-eslint/eslint-plugin": "7.7.0",
     "@typescript-eslint/parser": "7.7.0",
     "eslint": "9.1.0",
