@@ -1,12 +1,12 @@
 'use client'
 
 import Image from 'next/image'
-
-// import { Button } from '@/components/ui/button';
-// import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button'
+import { useRouter } from 'next/navigation'
 
 export default function NotFoundPage() {
-  // const router = useRouter()
+  const router = useRouter()
+
   return (
     <section className='flex flex-col items-center space-y-3 py-20'>
       <p>404 | This page could not be found.</p>
@@ -21,10 +21,10 @@ export default function NotFoundPage() {
         />
       </picture>
 
-      {/* <Button onClick={() => router.back()} title='Go back'>
+      <Button onClick={() => router.back()} title='Go back'>
         <span className='sr-only'>Go back</span>
         Go back
-      </Button> */}
+      </Button>
     </section>
   )
 }
