@@ -3,11 +3,13 @@
 import ChangeTheme from '@/components/common/ChangeTheme'
 import { Button } from '@/components/ui/button'
 import HamburgerIcon from '@/icons/Hamburger'
+import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 
 export default function NavBar() {
+  const { data } = useSession()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const pathname = usePathname()
 
@@ -40,6 +42,7 @@ export default function NavBar() {
 
         <ChangeTheme />
       </section>
+      <h1>{ data?.user?.email }</h1>
 
       <Button
         className='sm:hidden rounded-xl ml-2'
