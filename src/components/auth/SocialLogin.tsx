@@ -33,7 +33,7 @@ export default function SocialLogin() {
     try {
       setLoading(true)
       setProvider(provider)
-      await signIn(provider.toLowerCase(), {
+      await signIn(provider, {
         callbackUrl: callbackUrl || DEFAULT_LOGIN_REDIRECT_URL
       })
     } catch {
@@ -49,7 +49,7 @@ export default function SocialLogin() {
           title={social.title}
           className='flex gap-2 h-12 rounded-xl text-2xl px-4 py-1'
           variant={'outline'}
-          onClick={() => handleSocialLogin('google')}
+          onClick={() => handleSocialLogin(social.name.toLowerCase())}
           disabled={loading}
         >
           {provider === social.name ? (
