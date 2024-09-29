@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button'
 import GitHubIcon from '@/icons/GitHub'
 import { StarsIcon } from 'lucide-react'
 import Link from 'next/link'
+import "../styles/Button.css"
 
 export default function Landing() {
   return (

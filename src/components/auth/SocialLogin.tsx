@@ -1,14 +1,15 @@
 'use client'
 
+import { Suspense, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import GitHubIcon from '@/icons/GitHub'
 import GoogleIcon from '@/icons/Google'
 import { signIn } from 'next-auth/react'
 import { DEFAULT_LOGIN_REDIRECT_URL } from '@/constants'
 import { useSearchParams } from 'next/navigation'
-import { useState } from 'react'
 import { Loader } from 'lucide-react'
 import { toast } from 'sonner'
+import "../../styles/Button.css"
 
 const social = [
   {
@@ -23,7 +24,7 @@ const social = [
   }
 ]
 
-export default function SocialLogin() {
+function SocialLoginContent() {
   const searchParams = useSearchParams()
   const callbackUrl = searchParams.get('callbackUrl')
   const [loading, setLoading] = useState<boolean>(false)
@@ -33,23 +34,21 @@ export default function SocialLogin() {
     try {
       setLoading(true)
       setProvider(provider)
-      await signIn(provider, {
-        callbackUrl: callbackUrl || DEFAULT_LOGIN_REDIRECT_URL
-      })
+     
     } catch {
       toast.error('An error occurred while trying to sign in')
     }
   }
 
   return (
-    <section className='flex justify-center space-x-6'>
+    <section className='auth-buttons'>
       {social.map((social) => (
         <Button
           key={social.name}
           title={social.title}
-          className='flex gap-2 h-12 rounded-xl text-2xl px-4 py-1'
+          className='button'
           variant={'outline'}
-          onClick={() => handleSocialLogin(social.name.toLowerCase())}
+         
           disabled={loading}
         >
           {provider === social.name ? (
@@ -62,5 +61,13 @@ export default function SocialLogin() {
         </Button>
       ))}
     </section>
+  )
+}
+
+export default function SocialLogin() {
+  return (
+    <Suspense fallback={<div></div>}>
+      <SocialLoginContent />
+    </Suspense>
   )
 }
