@@ -1,19 +1,24 @@
+import "@/styles/Button.css"
 export default function UploadForm() {
   return (
     <form
-      className='bg-ziggurat-700 shadow-md rounded px-8 pt-6 pb-8 mb-4 min-w-[334px]'
+      className='bg-white shadow-lg rounded-lg px-10 py-8 mb-6 w-full max-w-lg mx-auto'
       method='post'
       encType='multipart/form-data'
     >
-      <div className='mb-4'>
+      <h2 className="text-2xl font-semibold text-center text-gray-700 mb-6">
+        Upload your code
+      </h2>
+
+      <div className='mb-6'>
         <label
-          className='block text-gray-900 text-sm font-bold mb-2'
+          className='block text-gray-700 text-sm font-bold mb-2'
           htmlFor='name'
         >
           Project&apos;s name
         </label>
         <input
-          className='bg-ziggurat-750 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+          className='bg-gray-50 shadow-inner border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition duration-200'
           id='name'
           type='text'
           placeholder='Write the name of the project'
@@ -21,24 +26,27 @@ export default function UploadForm() {
           required
         />
       </div>
-      <div className='mb-4'>
+
+      <div className='mb-6'>
         <label
-          className='block text-gray-900 text-sm font-bold mb-2'
+          className='block text-gray-700 text-sm font-bold mb-2'
           htmlFor='description'
         >
           Description
         </label>
         <textarea
-          className='bg-ziggurat-750 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+          className='bg-gray-50 shadow-inner border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition duration-200'
           id='description'
           placeholder='Write the project description'
           name='description'
+          rows='4'
           required
         ></textarea>
       </div>
-      <div className='mb-4'>
+
+      <div className='mb-6'>
         <label
-          className='block text-gray-900 text-sm font-bold mb-2'
+          className='block text-gray-700 text-sm font-bold mb-2'
           htmlFor='file'
         >
           Code
@@ -55,15 +63,16 @@ export default function UploadForm() {
         <label
           id='file-name'
           htmlFor='file'
-          className='bg-ziggurat-50 text-ziggurat-900 border w-full border-gray-300 rounded cursor-pointer py-2 px-4 inline-flex items-center'
+          className='bg-blue-50 text-blue-700 border border-gray-300 rounded-lg cursor-pointer py-2 px-4 inline-flex items-center transition duration-200 hover:bg-blue-100'
         >
           Choose file
         </label>
       </div>
+
       <div className='flex items-center justify-center'>
         <button
           id='submit'
-          className='bg-ziggurat-850 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+          className='button button_upload'
           type='submit'
         >
           Save

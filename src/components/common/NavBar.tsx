@@ -3,13 +3,12 @@
 import ChangeTheme from '@/components/common/ChangeTheme'
 import { Button } from '@/components/ui/button'
 import HamburgerIcon from '@/icons/Hamburger'
-
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
+import "@/styles/NavBar.css"
 
 export default function NavBar() {
- 
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const pathname = usePathname()
 
@@ -18,39 +17,28 @@ export default function NavBar() {
   }
 
   return (
-    <nav className='flex items-center justify-between backdrop-blur-sm sticky p-2 top-0 z-40'>
-      <Link
-        href='/'
-        className='text-sm sm:text-base md:text-2xl font-bold flex items-center gap-1'
-        title="KOS'BOOK"
-      >
-        <span className='sr-only'>KOS&apos;BOOK | Documentation Tool</span>
-        KOS&apos;BOOK | Documentation Tool
+    <nav className='flex items-center justify-between sticky p-4 px-11 top-0 z-40 backdrop-blur-lg bg-gray-800/80 text-white shadow-md'>
+      <Link href='/' >
+        <span className='navbar-title'>KOS&apos;BOOK | Documentation Tool</span>
       </Link>
 
-      <section
-        className={`sm:flex space-x-1 ${isMenuOpen ? 'flex' : 'hidden'}`}
-      >
+      <section className={`menu ${isMenuOpen ? 'menu-open' : ''}  `}>
         {pathname !== '/auth' && (
           <Link href='/auth'>
-            <Button className='rounded-xl' variant={'outline'} size={'sm'}>
-              <span className='sr-only'>Sign In</span>
+            <Button className="bg-white text-gray-900 0 hover:bg-gray-200 font-bold rounded-lg ">
               Sign In
             </Button>
           </Link>
         )}
-
         <ChangeTheme />
       </section>
-   
 
       <Button
-        className='sm:hidden rounded-xl ml-2'
+        className={`sm:hidden rounded-full ml-2 hamburger-icon transition-transform duration-300 ${isMenuOpen ? 'menu-open' : ''}`}
         variant={'outline'}
         size={'sm'}
         onClick={onToggleMenu}
       >
-        <span className='sr-only'>Menu</span>
         <HamburgerIcon />
       </Button>
     </nav>
