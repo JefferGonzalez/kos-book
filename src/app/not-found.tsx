@@ -18,6 +18,7 @@ export default function NotFoundPage() {
           loading='lazy'
           width={640}
           height={360}
+          unoptimized
         />
       </picture>
 

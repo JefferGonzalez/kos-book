@@ -1,8 +1,10 @@
 import NavBar from '@/components/common/NavBar'
-import '@/styles/globals.css'
+import Toaster from '@/components/common/Toaster'
 import type { Metadata } from 'next'
 import { SessionProvider } from 'next-auth/react'
 import { ThemeProvider } from 'next-themes'
+
+import '@/styles/globals.css'
 
 export const metadata: Metadata = {
   title: "KOS'BOOK | The next Documentation Tool",
@@ -41,6 +43,8 @@ export default function RootLayout({
               <NavBar />
               {children}
             </main>
+
+            <Toaster />
           </ThemeProvider>
         </SessionProvider>
       </body>
