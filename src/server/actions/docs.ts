@@ -47,3 +47,11 @@ export const CreateProject = async (values: FormData) => {
     return { error: 'An error occurred while creating the project.' }
   }
 }
+
+export const ViewProject = async (projectId : string) => {
+  return await prisma.project.findUnique({
+    where: {
+      id: projectId
+    }
+  })
+}
