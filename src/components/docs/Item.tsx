@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronRightIcon } from '@heroicons/react/24/outline';
+import { ChevronRightIcon } from'lucide-react';
 import { TreeNode } from "@/lib/docs";
 
 interface ItemProps {
@@ -19,7 +19,7 @@ export function Item({ item }: ItemProps) {
         <div className="menu-item">
             <button 
                 onClick={toggleSubMenu} 
-                className={`flex items-center justify-between w-full p-2 text-left hover:bg-gray-200 transition duration-300 ease-in-out ${isOpened ? 'font-bold' : ''}`}
+                className={`flex items-center justify-between w-full p-2 text-left hover:bg-gray-200  hover:text-blue-600 transition duration-300 ease-in-out ${isOpened ? 'font-bold' : ''}`}
             >
                 <span className="flex items-center gap-2">
                     <ChevronRightIcon className={`w-4 h-4 transition-transform duration-300 ${isOpened ? 'rotate-90' : ''}`} />
@@ -31,7 +31,7 @@ export function Item({ item }: ItemProps) {
                     {item.children.map((subitem, index) => (
                         <div key={index} className="flex items-center justify-between">
                             <button 
-                                className="flex-1 text-left p-2 hover:bg-gray-200 transition duration-300 ease-in-out"
+                                className="flex-1 text-left p-2 hover:bg-gray-200  hover:text-blue-600 transition duration-300 ease-in-out"
                             >
                                 {subitem.name}
                             </button>
