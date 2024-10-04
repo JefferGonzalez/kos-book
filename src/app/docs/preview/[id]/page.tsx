@@ -15,8 +15,6 @@ export default async function Page({ params }: { params: { id: string } }) {
   if(typeof project.files_code === 'string'){
     code = JSON.parse(project.files_code) as TreeNode[]
   }
-  console.log(code)
-  
 
   return (
     <>
