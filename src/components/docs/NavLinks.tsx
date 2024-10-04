@@ -1,5 +1,5 @@
 import {
-    ViewColumnsIcon,
+    //ViewColumnsIcon,
     HomeIcon,
     DocumentDuplicateIcon,
   } from '@heroicons/react/24/outline';
@@ -9,8 +9,6 @@ import {
   const links = [
     { name: 'Home', href: '/docs', icon: HomeIcon },
     { name: 'Upload', href: '/docs/upload', icon: DocumentDuplicateIcon },
-    //El preview necesita datos
-    { name: 'Preview', href: '/docs/preview/id', icon: ViewColumnsIcon,}, 
   ];
   
   export default function NavLinks() {
