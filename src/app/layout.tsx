@@ -40,10 +40,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <NavBar />
-            <main className='container mx-auto px-8 max-w-[1100px]'>
-              
-              {children}
-            </main>
+            <main className='container mx-auto'>{children}</main>
 
             <Toaster />
           </ThemeProvider>

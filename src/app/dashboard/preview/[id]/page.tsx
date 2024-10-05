@@ -1,4 +1,4 @@
-import TreeView from '@/components/docs/TreeView'
+import TreeView from '@/components/dashboard/TreeView'
 import { TreeNode } from '@/lib/docs'
 import { ViewProject } from '@/server/actions/docs'
 import { notFound } from 'next/navigation'
