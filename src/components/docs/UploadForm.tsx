@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import {
   Form,
@@ -6,105 +6,110 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { UploadProject, UploadProjectSchema } from '@/schemas/docs'
-import { CreateProject } from '@/server/actions/docs'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { LoaderIcon } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
-import { Button } from '../ui/button'
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { UploadProject, UploadProjectSchema } from "@/schemas/docs";
+import { CreateProject } from "@/server/actions/docs";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { LoaderIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+
+import "@/styles/Button.css";
 
 export default function UploadForm() {
-  const router = useRouter()
+  const router = useRouter();
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const form = useForm<UploadProject>({
     resolver: zodResolver(UploadProjectSchema),
     defaultValues: {
-      name: '',
-      description: '',
-      file: undefined
-    }
-  })
+      name: "",
+      description: "",
+      file: undefined,
+    },
+  });
 
   const onSubmit = async (data: UploadProject) => {
     try {
-      setLoading(true)
+      setLoading(true);
 
-      const formData = new FormData()
-      formData.append('name', data.name)
-      formData.append('description', data.description ?? '')
-      formData.append('file', data.file)
+      const formData = new FormData();
+      formData.append("name", data.name);
+      formData.append("description", data.description ?? "");
+      formData.append("file", data.file);
 
-      const response = await CreateProject(formData)
+      const response = await CreateProject(formData);
 
       if (response.error) {
         if (Array.isArray(response.error)) {
           for (const error of response.error) {
-            const name = error.field as keyof UploadProject
+            const name = error.field as keyof UploadProject;
 
-            form.setError(name, { message: error.message })
+            form.setError(name, { message: error.message });
           }
         }
 
-        if (typeof response.error === 'string') {
-          toast.error(response.error)
+        if (typeof response.error === "string") {
+          toast.error(response.error);
         }
 
-        setLoading(false)
-        return
+        setLoading(false);
+        return;
       }
 
-      const projectId = response.data?.id
+      const projectId = response.data?.id;
 
       if (!projectId) {
-        toast.error('An error occurred while creating the project.')
+        toast.error("An error occurred while creating the project.");
       }
 
-      toast.success('Project created successfully.', {
-        description: 'You will be redirected to the preview page.',
-        duration: 1500
-      })
+      toast.success("Project created successfully.", {
+        description: "You will be redirected to the preview page.",
+        duration: 1500,
+      });
 
       setTimeout(() => {
-        router.push(`/docs/preview/${projectId}`)
-      }, 1500)
+        router.push(`/docs/preview/${projectId}`);
+      }, 1500);
 
-      form.reset()
+      form.reset();
     } catch (error) {
-      console.error(error)
-      toast.error('An error occurred while creating the project.')
+      console.error(error);
+      toast.error("An error occurred while creating the project.");
     }
-  }
+  };
 
   return (
     <Form {...form}>
       <form
-        className='bg-zinc-100 shadow-md rounded px-8 pt-6 pb-8 mb-4 min-w-[334px]'
-        method='post'
-        encType='multipart/form-data'
+        className="bg-white shadow-lg rounded-lg px-10 py-8 mb-6 w-full max-w-lg mx-auto"
+        method="post"
+        encType="multipart/form-data"
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        <div className='mb-4'>
+        <h2 className="text-2xl font-semibold text-center text-gray-700 mb-6">
+          Upload your code
+        </h2>
+
+        <div className="mb-6">
           <FormField
             control={form.control}
-            name='name'
+            name="name"
             render={({ field, fieldState }) => (
-              <FormItem className='w-full'>
-                <FormLabel className='block text-gray-900 text-sm font-bold mb-2'>
+              <FormItem className="w-full">
+                <FormLabel className="block text-gray-700 text-sm font-bold mb-2">
                   Project&apos;s name:
                 </FormLabel>
                 <FormControl>
                   <Input
-                    placeholder='Write the name of the project'
-                    className='bg-zinc-100 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                    placeholder="Write the name of the project"
+                    className="bg-gray-50 shadow-inner border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition duration-200"
                     disabled={loading}
                     {...field}
                   />
@@ -116,19 +121,20 @@ export default function UploadForm() {
           />
         </div>
 
-        <div className='mb-4'>
+        <div className="mb-6">
           <FormField
             control={form.control}
-            name='description'
+            name="description"
             render={({ field }) => (
-              <FormItem className='w-full'>
-                <FormLabel className='block text-gray-900 text-sm font-bold mb-2'>
+              <FormItem className="w-full">
+                <FormLabel className="block text-gray-700 text-sm font-bold mb-2">
                   Description (optional):
                 </FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder='Write the project description'
-                    className='bg-zinc-100 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                    placeholder="Write the project description"
+                    className="bg-gray-50 shadow-inner border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition duration-200"
+                    rows={4}
                     disabled={loading}
                     {...field}
                   />
@@ -138,47 +144,55 @@ export default function UploadForm() {
           />
         </div>
 
-        <div className='mb-4'>
+        <div className="mb-6">
           <FormField
-            name='file'
+            name="file"
             control={form.control}
             render={({ field, fieldState }) => (
-              <FormItem className='w-full'>
-                <FormLabel className='block text-gray-900 text-sm font-bold mb-2'>
+              <FormItem className="w-full">
+                <FormLabel className="block text-gray-900 text-sm font-bold">
                   Code
                 </FormLabel>
                 <FormControl>
                   <Input
-                    type='file'
-                    accept='.zip'
-                    className='bg-zinc-100 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                    id="file"
+                    type="file"
+                    accept=".zip"
+                    className="hidden"
                     onChange={(e) => {
-                      const file = e.target.files?.[0]
+                      const file = e.target.files?.[0];
 
-                      if (file) field.onChange(file)
+                      if (file) field.onChange(file);
                     }}
                     disabled={loading}
                   />
                 </FormControl>
+                <label
+                  id="file-name"
+                  htmlFor="file"
+                  className="bg-blue-50 text-blue-700 border border-gray-300 rounded-lg cursor-pointer py-2 px-4 inline-flex items-center transition duration-200 hover:bg-blue-100"
+                >
+                  Choose file
+                </label>
                 <FormMessage>{fieldState.error?.message}</FormMessage>
               </FormItem>
             )}
           />
         </div>
 
-        <div className='flex items-center justify-center'>
-          <Button
-            className='flex gap-x-2 bg-zinc-800 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-            type='submit'
+        <div className="flex items-center justify-center">
+          <button
+            className="button button_upload"
             disabled={loading}
+            type="submit"
           >
             {loading && (
-              <LoaderIcon className='transition-all duration-1000 animate-spin' />
+              <LoaderIcon className="transition-all duration-1000 animate-spin" />
             )}
             Save
-          </Button>
+          </button>
         </div>
       </form>
     </Form>
-  )
+  );
 }
