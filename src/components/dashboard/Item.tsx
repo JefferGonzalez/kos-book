@@ -1,6 +1,6 @@
-import { useState } from 'react'
-import { ChevronRightIcon } from 'lucide-react'
 import { TreeNode } from '@/lib/docs'
+import { ChevronRightIcon } from 'lucide-react'
+import { useState } from 'react'
 
 interface ItemProps {
   item: TreeNode
@@ -22,14 +22,18 @@ export function Item({ item }: ItemProps) {
         }`}
       >
         <span className='flex items-center gap-2'>
-          <ChevronRightIcon
-            className={`w-4 h-4 transition-transform duration-300 ${
-              isOpened ? 'rotate-90' : ''
-            }`}
-          />
+          {Array.isArray(item.children) && item.children.length > 0 && (
+            <ChevronRightIcon
+              size={16}
+              className={`transform transition-transform ${
+                isOpened ? 'rotate-90' : ''
+              }`}
+            />
+          )}
           {item.name}
         </span>
       </button>
+
       {Array.isArray(item.children) && item.children.length > 0 && isOpened && (
         <div className='sub-menu pl-4 border-l border-gray-300 mt-2'>
           {item.children.map((subitem, index) => (

@@ -9,15 +9,15 @@ export default async function Page({ params }: { params: { id: string } }) {
   if (!project) {
     return notFound()
   }
-  
+
   let code: TreeNode[] = []
 
-  if(typeof project.files_code === 'string'){
+  if (typeof project.files_code === 'string') {
     code = JSON.parse(project.files_code) as TreeNode[]
   }
 
   return (
-    <>
+    <div className='bg-white shadow-2xl rounded-lg p-6'>
       <header className='mb-4 space-y-2'>
         <h1 className='text-2xl font-bold sm:text-3xl md:text-4xl'>
           {project.name}
@@ -29,8 +29,8 @@ export default async function Page({ params }: { params: { id: string } }) {
           </p>
         )}
       </header>
-      <TreeView nodes={code}/>
 
-    </>
+      <TreeView nodes={code} />
+    </div>
   )
 }
