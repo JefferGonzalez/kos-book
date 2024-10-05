@@ -13,7 +13,7 @@ export default function Landing() {
       <section className='flex justify-center space-x-6'>
         <Link href='/auth'>
           <Button
-            className='flex gap-2 h-12 rounded-xl text-2xl px-4 py-1'
+            className='button'
             variant={'outline'}
           >
             <StarsIcon className='size-8' />
@@ -23,7 +23,7 @@ export default function Landing() {
         </Link>
 
         <Button
-          className='flex gap-2 h-12 rounded-xl text-2xl px-4 py-1'
+          className='button'
           variant={'outline'}
         >
           <GitHubIcon className='size-8' />
