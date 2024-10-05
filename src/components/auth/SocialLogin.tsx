@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { DEFAULT_LOGIN_REDIRECT_URL } from '@/constants'
+import { DEFAULT_LOGIN_REDIRECT_URL } from '@/routes'
 import GitHubIcon from '@/icons/GitHub'
 import GoogleIcon from '@/icons/Google'
 import { Loader } from 'lucide-react'
