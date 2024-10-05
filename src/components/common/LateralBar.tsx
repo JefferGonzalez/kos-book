@@ -1,5 +1,4 @@
 // import Link from 'next/link';
-import { PowerIcon } from '@heroicons/react/24/outline';
 import NavLinks from '../docs/NavLinks';
 
 export default function SideNav() {
@@ -12,13 +11,7 @@ export default function SideNav() {
         {/* Espacio vacío */}
         <div className="hidden h-auto w-full grow rounded-md bg-transparent md:block"></div>
         
-        {/* Botón de cerrar sesión */}
-        <form>
-          <button className="flex h-[48px] w-full grow items-center justify-center gap-2 rounded-md bg-transparent text-white p-3 text-sm font-medium hover:bg-sky-700 hover:text-blue-300 md:flex-none md:justify-start md:p-2 md:px-3">
-            <PowerIcon className="w-6 text-white" />
-            <div className="hidden md:block">Sign Out</div>
-          </button>
-        </form>
+        
       </div>
     </div>
   );

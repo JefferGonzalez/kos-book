@@ -1,15 +1,19 @@
-import { prisma } from '@/server/db'
+import TreeView from '@/components/docs/TreeView'
+import { TreeNode } from '@/lib/docs'
+import { ViewProject } from '@/server/actions/docs'
 import { notFound } from 'next/navigation'
 
 export default async function Page({ params }: { params: { id: string } }) {
-  const project = await prisma.project.findUnique({
-    where: {
-      id: params.id
-    }
-  })
+  const project = await ViewProject(params.id)
 
   if (!project) {
     return notFound()
+  }
+  
+  let code: TreeNode[] = []
+
+  if(typeof project.files_code === 'string'){
+    code = JSON.parse(project.files_code) as TreeNode[]
   }
 
   return (
@@ -25,6 +29,8 @@ export default async function Page({ params }: { params: { id: string } }) {
           </p>
         )}
       </header>
+      <TreeView nodes={code}/>
+
     </>
   )
 }

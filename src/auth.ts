@@ -5,6 +5,7 @@ import Github from 'next-auth/providers/github'
 import Google from 'next-auth/providers/google'
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  pages: {signIn: '/auth'},
   adapter: PrismaAdapter(prisma),
   secret: process.env.NEXTAUTH_SECRET,
   providers: [

@@ -1,16 +1,13 @@
-import {
-    ViewColumnsIcon,
-    HomeIcon,
-    DocumentDuplicateIcon,
-  } from '@heroicons/react/24/outline';
-  import Link from 'next/link';
-  import { usePathname } from 'next/navigation';
+import { 
+  BlindsIcon,
+  FolderUpIcon,
+ } from 'lucide-react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
   
   const links = [
-    { name: 'Home', href: '/docs', icon: HomeIcon },
-    { name: 'Upload', href: '/docs/upload', icon: DocumentDuplicateIcon },
-    //El preview necesita datos
-    { name: 'Preview', href: '/docs/preview/id', icon: ViewColumnsIcon,}, 
+    { name: 'Dashboard', href: '/docs', icon: BlindsIcon },
+    { name: 'Upload', href: '/docs/upload', icon: FolderUpIcon },
   ];
   
   export default function NavLinks() {
