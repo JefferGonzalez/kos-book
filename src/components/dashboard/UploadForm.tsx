@@ -71,12 +71,12 @@ export default function UploadForm() {
 
       toast.success("Project created successfully.", {
         description: "You will be redirected to the preview page.",
-        duration: 1500,
+        duration: 1000,
       });
 
       setTimeout(() => {
-        router.push(`/docs/preview/${projectId}`);
-      }, 1500);
+        router.push(`/dashboard/preview/${projectId}`);
+      }, 1000);
 
       form.reset();
     } catch (error) {
