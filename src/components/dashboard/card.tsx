@@ -26,7 +26,7 @@ interface ProjectCardProps {
             onClick={onEdit}
             className="text-blue-600 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
           >
-            Edit
+            Preview
           </button>
         </div>
       </div>

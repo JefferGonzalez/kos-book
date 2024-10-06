@@ -4,20 +4,32 @@ import { ViewProject } from '@/server/actions/docs'
 import { notFound } from 'next/navigation'
 
 export default async function Page({ params }: { params: { id: string } }) {
-  const project = await ViewProject(params.id)
+  const response = await ViewProject(params.id)
 
-  if (!project) {
+  if (response.error) {
+    return (
+      <section className='bg-white shadow-2xl rounded-lg'>
+        <div className='p-8 text-center'>
+          <h1 className='text-2xl font-bold text-gray-800'>{response.error}</h1>
+        </div>
+      </section>
+    )
+  }
+
+  if (!response.project) {
     return notFound()
   }
 
-  let code: TreeNode[] = []
+  const project = response.project
 
-  if (typeof project.files_code === 'string') {
-    code = JSON.parse(project.files_code) as TreeNode[]
+  let nodes: TreeNode[] = []
+
+  if (typeof project.documentation === 'string') {
+    nodes = JSON.parse(project.documentation) as TreeNode[]
   }
 
   return (
-    <div className='bg-white shadow-2xl rounded-lg p-6'>
+    <div className='bg-white h-full shadow-2xl rounded-lg p-6'>
       <header className='mb-4 space-y-2'>
         <h1 className='text-2xl font-bold sm:text-3xl md:text-4xl'>
           {project.name}
@@ -30,7 +42,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         )}
       </header>
 
-      <TreeView nodes={code} />
+      <TreeView nodes={nodes} id={params.id} />
     </div>
   )
 }

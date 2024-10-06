@@ -1,11 +1,65 @@
 import AdmZip from 'adm-zip'
+import { nanoid } from 'nanoid'
 
 const VALID_EXTENSIONS = ['html', 'css', 'js']
 
 export interface TreeNode {
   name: string
+  id?: string
   content?: string
   children?: TreeNode[]
+}
+
+export const findNode = (
+  nodes: TreeNode[],
+  nodeId: string
+): TreeNode | undefined => {
+  for (const node of nodes) {
+    if (node.id === nodeId) {
+      return node
+    }
+    if (node.children) {
+      const foundNode = findNode(node.children, nodeId)
+      if (foundNode) return foundNode
+    }
+  }
+
+  return undefined
+}
+
+export const updateNode = (
+  nodes: TreeNode[],
+  nodeId: string,
+  content: string
+): boolean => {
+  for (const node of nodes) {
+    if (node.id === nodeId) {
+      node.content = content
+      return true
+    }
+
+    if (node.children) {
+      if (updateNode(node.children, nodeId, content)) return true
+    }
+  }
+
+  return false
+}
+
+const cloneNodesWithoutContent = (nodes: TreeNode[]): TreeNode[] => {
+  return nodes.map((node) => {
+    const newNode: TreeNode = {
+      name: node.name,
+      content: node.children ? undefined : '',
+      id: node.id
+    }
+
+    if (node.children) {
+      newNode.children = cloneNodesWithoutContent(node.children)
+    }
+
+    return newNode
+  })
 }
 
 const sortNodes = (nodes: TreeNode[]): TreeNode[] => {
@@ -57,6 +111,7 @@ export const readZip = async (file: File) => {
 
         if (isFile) {
           newNode.content = zipEntry.getData().toString('utf8')
+          newNode.id = nanoid()
         } else {
           newNode.children = []
         }
@@ -72,5 +127,10 @@ export const readZip = async (file: File) => {
     })
   })
 
-  return sortNodes(nodes)
+  const nodesWithoutContent = cloneNodesWithoutContent(nodes)
+
+  return {
+    nodes: sortNodes(nodes),
+    nodesWithoutContent: sortNodes(nodesWithoutContent)
+  }
 }

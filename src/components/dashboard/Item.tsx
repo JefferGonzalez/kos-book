@@ -4,13 +4,18 @@ import { useState } from 'react'
 
 interface ItemProps {
   item: TreeNode
+  setCurrentNode: (node: TreeNode) => void
 }
 
-export function Item({ item }: ItemProps) {
+export function Item({ item, setCurrentNode }: ItemProps) {
   const [isOpened, setIsOpened] = useState<boolean>(false)
 
   const toggleSubMenu = () => {
-    setIsOpened((prev) => !prev)
+    if (Array.isArray(item.children) && item.children.length > 0) {
+      setIsOpened(!isOpened)
+    } else {
+      setCurrentNode(item)
+    }
   }
 
   return (
@@ -37,11 +42,7 @@ export function Item({ item }: ItemProps) {
       {Array.isArray(item.children) && item.children.length > 0 && isOpened && (
         <div className='sub-menu pl-4 border-l border-gray-300 mt-2'>
           {item.children.map((subitem, index) => (
-            <div key={index} className='flex items-center justify-between'>
-              <button className='flex-1 text-left p-2 hover:bg-gray-200  hover:text-blue-600 transition duration-300 ease-in-out'>
-                {subitem.name}
-              </button>
-            </div>
+            <Item key={index} item={subitem} setCurrentNode={setCurrentNode} />
           ))}
         </div>
       )}
