@@ -56,8 +56,8 @@ export default function NavBar() {
             variant={"outline"}
             onClick={signOut}
           >
-            <span className="sr-only">Cerrar sesión</span>
-            Cerrar sesión
+            <span className="sr-only">Log out</span>
+            Log out
           </Button>
         )}
 
