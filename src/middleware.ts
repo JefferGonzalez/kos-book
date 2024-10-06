@@ -30,7 +30,7 @@ export default auth((req) => {
     return
   }
 
-  const isProtectedRoute = PROTECTED_PATHS.includes(pathname)
+  const isProtectedRoute = PROTECTED_PATHS.some((p) => pathname.startsWith(p))
 
   if (!isAuthenticated && isProtectedRoute) {
     return Response.redirect(new URL('/auth', nextUrl.origin))
