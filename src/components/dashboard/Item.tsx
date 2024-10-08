@@ -22,8 +22,8 @@ export function Item({ item, setCurrentNode }: ItemProps) {
     <div className='menu-item'>
       <button
         onClick={toggleSubMenu}
-        className={`flex items-center justify-between w-full p-2 text-left hover:bg-gray-200  hover:text-blue-600 transition duration-300 ease-in-out ${
-          isOpened ? 'font-bold' : ''
+        className={`flex items-center justify-between w-full p-2 text-left hover:bg-gray-400 rounded-lg hover:text-white transition duration-300 ease-in-out dark:bg-[#111827] ${
+          isOpened ? 'font-bold bg-gray-300 dark:bg-gray-500' : ''
         }`}
       >
         <span className='flex items-center gap-2'>

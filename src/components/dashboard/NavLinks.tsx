@@ -22,7 +22,7 @@ export default function NavLinks() {
   const pathname = usePathname()
 
   return (
-    <nav className='flex flex-row md:flex-col gap-2 text-gray-500 dark:text-gray-400'>
+    <nav className=' flex flex-row md:flex-col gap-2 text-gray-500 dark:text-gray-400'>
       {links.map((link) => {
         const LinkIcon = link.icon
         return (
@@ -30,7 +30,7 @@ export default function NavLinks() {
             key={link.name}
             href={link.href}
             title={link.title}
-            className={`flex items-center justify-start gap-3 rounded-md p-3 text-sm font-medium text-white-900 hover:bg-gray-100 hover:text-blue-600 transition duration-300 ease-in-out ${
+            className={`flex items-center justify-start gap-3 rounded-md p-3 text-sm font-medium text-white-900 hover:bg-gray-400 dark: hover:text-blue-600 transition duration-300 ease-in-out dark:hover:bg-[#111827] dark:bg-[#111827] hover:text-white transition-all duration-300  ${
               pathname === link.href ? 'bg-gray-100' : ''
             }`}
           >

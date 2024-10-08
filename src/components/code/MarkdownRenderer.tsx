@@ -4,12 +4,13 @@ import { ReactNode } from 'react'
 
 const FONTCOLOR = 'text-zinc-800 dark:text-zinc-200'
 const LEVELCLASS: Record<number, string> = {
-  1: 'text-2xl',
+  1: 'text-3xl',
   2: 'text-xl',
   3: 'text-lg',
-  4: 'text-base',
+  4: 'text-lg font-normal',
   5: 'text-sm',
-  6: 'text-xs'
+  6: 'text-xs',
+  7: 'text-3x1'
 }
 
 const Heading = ({
@@ -43,6 +44,7 @@ export const MarkdownRenderer = ({ content }: Props) => {
           h4: ({ children }) => <Heading level={4}>{children}</Heading>,
           h5: ({ children }) => <Heading level={5}>{children}</Heading>,
           h6: ({ children }) => <Heading level={6}>{children}</Heading>,
+          li: ({ children }) => <Heading level={4}>{children}</Heading>,
           code({ className, children, ...props }) {
             const match = /language-(\w+)/.exec(className || '')
 

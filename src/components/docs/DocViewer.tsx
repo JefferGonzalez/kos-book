@@ -11,6 +11,7 @@ import {
 import { readStreamableValue } from 'ai/rsc'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
+import "@/styles/button.css"
 
 interface Props {
   id: string
@@ -75,7 +76,7 @@ export default function DocViewer({ id, currentNode }: Props) {
 
           <Button
             onClick={generateDocumentation}
-            className='bg-blue-600 hover:bg-blue-700 text-white'
+            className='button button_upload hover:bg-black dark:text-white  mt-6 dark:bg-[#102cf31a] dark:hover:bg-[#5668f591]'
           >
             Click to generate documentation
           </Button>
