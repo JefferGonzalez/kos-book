@@ -49,7 +49,7 @@ function SocialLoginContent() {
         <Button
           key={social.name}
           title={social.title}
-          className='button'
+          className='button dark:text-white'
           variant={'outline'}
           onClick={() => handleSocialLogin(social.name)}
           disabled={loading}

@@ -29,14 +29,14 @@ export default async function Page({ params }: { params: { id: string } }) {
   }
 
   return (
-    <div className='bg-white h-full shadow-2xl rounded-lg p-6'>
+    <div className='bg-blue-50 h-full shadow-2xl rounded-lg p-6 dark:bg-[#061c33]'>
       <header className='mb-4 space-y-2'>
-        <h1 className='text-2xl font-bold sm:text-3xl md:text-4xl'>
+        <h1 className='text-2xl font-extrabold sm:text-3xl md:text-4xl my-5'>
           {project.name}
         </h1>
 
         {project.description && (
-          <p className='text-base sm:text-lg md:text-xl text-pretty'>
+          <p className='text-base sm:text-lg md:text-xl text-pretty mt-5'>
             {project.description}
           </p>
         )}

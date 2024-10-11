@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button'
 import GitHubIcon from '@/icons/GitHub'
 import { StarsIcon } from 'lucide-react'
 import Link from 'next/link'
-import "../styles/Button.css"
+import "@/styles/Button.css"
 
 export default function Landing() {
   return (
@@ -13,7 +13,7 @@ export default function Landing() {
       <section className='flex justify-center space-x-6'>
         <Link href='/auth'>
           <Button
-            className='button'
+            className='button dark:text-white'
             variant={'outline'}
           >
             <StarsIcon className='size-8' />
@@ -23,7 +23,7 @@ export default function Landing() {
         </Link>
 
         <Button
-          className='button'
+          className='button dark:text-white'
           variant={'outline'}
         >
           <GitHubIcon className='size-8' />
