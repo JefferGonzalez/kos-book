@@ -11,7 +11,8 @@ import {
 import { readStreamableValue } from 'ai/rsc'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
-import "@/styles/button.css"
+
+import "@/styles/Button.css"
 
 interface Props {
   id: string

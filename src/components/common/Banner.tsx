@@ -1,4 +1,5 @@
-import "../../styles/Banner.css"
+import '@/styles/Banner.css'
+
 export default function Banner() {
   return (
     <section className='flex  justify-center flex-col my-20'>
