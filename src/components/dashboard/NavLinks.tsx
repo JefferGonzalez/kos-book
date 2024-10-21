@@ -1,3 +1,4 @@
+import GitHubIcon from '@/icons/GitHub'
 import { BlindsIcon, FolderUpIcon } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -7,7 +8,6 @@ const links = [
     name: 'Dashboard',
     href: '/dashboard',
     title: 'Dashboard',
-
     icon: BlindsIcon
   },
   {
@@ -15,6 +15,12 @@ const links = [
     href: '/dashboard/upload',
     title: 'Upload',
     icon: FolderUpIcon
+  },
+  {
+    name: 'Integrate with GitHub',
+    href: '/dashboard/github',
+    title: 'Integrate with GitHub',
+    icon: GitHubIcon
   }
 ]
 

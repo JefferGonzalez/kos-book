@@ -4,4 +4,4 @@ export const API_AUTH_URL = '/api/auth'
 
 export const AUTH_PATHS = ['/auth']
 
-export const PROTECTED_PATHS = ['/dashboard']
+export const PROTECTED_PATHS = ['/dashboard', '/api/github']

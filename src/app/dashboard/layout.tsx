@@ -8,7 +8,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <div className='w-full flex-none md:w-60'>
         <LateralBar />
       </div>
-      <div className='flex-grow'>{children}</div>
+      <div className='flex-grow w-full'>{children}</div>
     </div>
   )
 }
