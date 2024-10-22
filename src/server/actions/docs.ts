@@ -51,6 +51,8 @@ export const CreateProject = async (values: FormData) => {
       }
     })
 
+    revalidatePath('/dashboard')
+    
     return { data: projectId }
   } catch (error) {
     if (error instanceof ZodError) {
