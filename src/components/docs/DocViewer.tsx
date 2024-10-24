@@ -2,7 +2,7 @@
 
 import { MarkdownRenderer } from '@/components/code/MarkdownRenderer'
 import { Button } from '@/components/ui/button'
-import { TreeNode } from '@/lib/docs'
+import { TreeNode } from '@/lib/nodes'
 import {
   GenerateDocs,
   getContentNode,
@@ -12,7 +12,7 @@ import { readStreamableValue } from 'ai/rsc'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
-import "@/styles/Button.css"
+import '@/styles/Button.css'
 
 interface Props {
   id: string

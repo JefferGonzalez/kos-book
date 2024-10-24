@@ -1,4 +1,4 @@
-import { TreeNode } from '@/lib/docs'
+import { TreeNode } from '@/lib/nodes'
 import { ChevronRightIcon } from 'lucide-react'
 import { useState } from 'react'
 

@@ -7,7 +7,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup
 } from '@/components/ui/resizable'
-import { TreeNode } from '@/lib/docs'
+import { TreeNode } from '@/lib/nodes'
 import { useState } from 'react'
 
 interface Props {

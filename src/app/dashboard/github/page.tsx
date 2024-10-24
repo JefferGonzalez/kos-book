@@ -1,9 +1,10 @@
 import { auth } from '@/auth'
 import { Button } from '@/components/ui/button'
 import GitHubIcon from '@/icons/GitHub'
-import { getRepos, type Repositories } from '@/lib/github'
+import { getReposForInstallation } from '@/lib/github'
 import { getRandomColor } from '@/lib/utils'
 import { getGitHubInstallation } from '@/server/actions/users'
+import { Repositories } from '@/types/github'
 
 import '@/styles/dashboard.css'
 
@@ -22,7 +23,7 @@ export default async function Page() {
   let repos: Repositories = []
 
   if (installation) {
-    repos = await getRepos(installation.installationId)
+    repos = await getReposForInstallation(installation.installationId)
   }
 
   return (

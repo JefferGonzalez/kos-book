@@ -1,11 +1,5 @@
 import { createAppAuth } from '@octokit/auth-app'
-import { Octokit, RestEndpointMethodTypes } from '@octokit/rest'
-
-export type RepoContent =
-  RestEndpointMethodTypes['repos']['getContent']['response']['data']
-
-export type Repositories =
-  RestEndpointMethodTypes['apps']['listReposAccessibleToInstallation']['response']['data']['repositories']
+import { Octokit } from '@octokit/rest'
 
 export const GitHubApp = (installationId: number) =>
   new Octokit({
@@ -17,7 +11,7 @@ export const GitHubApp = (installationId: number) =>
     }
   })
 
-export const getRepos = async (installationId: number) => {
+export const getReposForInstallation = async (installationId: number) => {
   const octokit = GitHubApp(installationId)
 
   const response = await octokit.apps.listReposAccessibleToInstallation()

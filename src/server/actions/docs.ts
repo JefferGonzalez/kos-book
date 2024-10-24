@@ -1,7 +1,8 @@
 'use server'
 
 import { auth } from '@/auth'
-import { findNode, readZip, TreeNode, updateNode } from '@/lib/docs'
+import { buildTreeFromZip } from '@/lib/docs'
+import { findNode, TreeNode, updateNode } from '@/lib/nodes'
 import { UploadProjectSchema } from '@/schemas/docs'
 import { prisma } from '@/server/db'
 import { openai } from '@ai-sdk/openai'
@@ -36,7 +37,7 @@ export const CreateProject = async (values: FormData) => {
     UploadProjectSchema.parse(data)
 
     const file = data.file as File
-    const { nodes, nodesWithoutContent } = await readZip(file)
+    const { nodes, nodesWithoutContent } = await buildTreeFromZip(file)
 
     const projectId = await prisma.project.create({
       data: {
@@ -52,7 +53,7 @@ export const CreateProject = async (values: FormData) => {
     })
 
     revalidatePath('/dashboard')
-    
+
     return { data: projectId }
   } catch (error) {
     if (error instanceof ZodError) {
