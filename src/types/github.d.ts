@@ -1,4 +1,4 @@
-import { RestEndpointMethodTypes } from '@octokit/rest'
+import { Endpoints } from '@octokit/types'
 
 export type Repositories =
-  RestEndpointMethodTypes['apps']['listReposAccessibleToInstallation']['response']['data']['repositories']
+  Endpoints['GET /installation/repositories']['response']['data']['repositories']

@@ -1,20 +1,19 @@
-import { createAppAuth } from '@octokit/auth-app'
-import { Octokit } from '@octokit/rest'
+import { App } from 'octokit'
 
-export const GitHubApp = (installationId: number) =>
-  new Octokit({
-    authStrategy: createAppAuth,
-    auth: {
-      appId: process.env.GITHUB_APP_ID,
-      privateKey: process.env.GITHUB_APP_PRIVATE_KEY,
-      installationId
-    }
+export const GitHubApp = () =>
+  new App({
+    appId: process.env.GITHUB_APP_ID ?? '',
+    privateKey: process.env.GITHUB_APP_PRIVATE_KEY ?? ''
   })
 
 export const getReposForInstallation = async (installationId: number) => {
-  const octokit = GitHubApp(installationId)
+  try {
+    const octokit = await GitHubApp().getInstallationOctokit(installationId)
 
-  const response = await octokit.apps.listReposAccessibleToInstallation()
+    const response = await octokit.rest.apps.listReposAccessibleToInstallation()
 
-  return response.data.repositories
+    return response.data.repositories
+  } catch {
+    return []
+  }
 }

@@ -19,9 +19,11 @@ export async function GET(request: NextRequest) {
       return NextResponse.redirect(new URL('/auth', request.url))
     }
 
-    const octokit = GitHubApp(Number(installationId))
+    const octokit = await GitHubApp().getInstallationOctokit(
+      Number(installationId)
+    )
 
-    await octokit.apps.getInstallation({
+    await octokit.rest.apps.getInstallation({
       installation_id: Number(installationId)
     })
 
