@@ -1,4 +1,5 @@
 import { auth } from '@/auth'
+import UninstallGitHubApp from '@/components/github/UninstallApp'
 import { Button } from '@/components/ui/button'
 import GitHubIcon from '@/icons/GitHub'
 import { getReposForInstallation } from '@/lib/github'
@@ -36,14 +37,20 @@ export default async function Page() {
         button below to install the app.
       </p>
 
-      <Button asChild className='flex gap-x-2 mt-4'>
-        <a href={INSTALL_APP_URL}>
-          <GitHubIcon className='w-6 h-6' />
-          {installation
-            ? 'Add the app to more repositories.'
-            : 'Install the app on your repositories.'}
-        </a>
-      </Button>
+      <div className='flex gap-x-4'>
+        <Button asChild className='flex gap-x-2 mt-4'>
+          <a href={INSTALL_APP_URL}>
+            <GitHubIcon className='w-6 h-6' />
+            {installation
+              ? 'Add the app to more repositories.'
+              : 'Install the app on your repositories.'}
+          </a>
+        </Button>
+
+        {installation && (
+          <UninstallGitHubApp installationId={installation.installationId} />
+        )}
+      </div>
 
       {repos.length > 0 && (
         <section className='masonry-grid mt-6'>
