@@ -1,9 +1,55 @@
 'use server'
 
 import { auth } from '@/auth'
-import { GitHubApp } from '@/lib/github'
-import { prisma } from '../db'
+import { getRepoContent, GitHubApp } from '@/lib/github'
+import { prisma } from '@/server/db'
 import { revalidatePath } from 'next/cache'
+
+export const CreateProjectFromRepo = async (
+  installationId: number,
+  repo: string,
+  description?: string
+) => {
+  try {
+    const session = await auth()
+    const user = session?.user
+
+    if (!session || !user || !user.id) {
+      return { error: 'Not authenticated. Please login again.' }
+    }
+
+    const response = await getRepoContent(installationId, {
+      owner: user.name as string,
+      repo
+    })
+
+    if (typeof response === 'string') {
+      return { error: response }
+    }
+
+    const projectId = await prisma.project.create({
+      data: {
+        name: repo,
+        description: description,
+        files_code: JSON.stringify(response.nodes),
+        documentation: JSON.stringify(response.nodesWithoutContent),
+        userId: user.id
+      },
+      select: {
+        id: true
+      }
+    })
+
+    revalidatePath('/dashboard')
+
+    return { data: projectId }
+  } catch {
+    return {
+      error:
+        'An error occurred while creating the project. Please try again. If the issue persists, please contact support.'
+    }
+  }
+}
 
 export const UninstallApp = async (installationId: number) => {
   try {
