@@ -7,6 +7,7 @@ import { revalidatePath } from 'next/cache'
 
 export const CreateProjectFromRepo = async (
   installationId: number,
+  owner: string,
   repo: string,
   description?: string
 ) => {
@@ -19,7 +20,7 @@ export const CreateProjectFromRepo = async (
     }
 
     const response = await getRepoContent(installationId, {
-      owner: user.username as string,
+      owner,
       repo
     })
 

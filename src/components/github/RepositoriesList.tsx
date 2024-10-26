@@ -19,10 +19,15 @@ export default function RepositoriesList({
   const router = useRouter()
   const [loading, setLoading] = useState(false)
 
-  const handleCreateProject = async (repo: string, description?: string) => {
+  const handleCreateProject = async (
+    owner: string,
+    repo: string,
+    description?: string
+  ) => {
     setLoading(true)
     const response = await CreateProjectFromRepo(
       installationId,
+      owner,
       repo,
       description
     )
@@ -87,6 +92,7 @@ export default function RepositoriesList({
                   <button
                     onClick={() =>
                       handleCreateProject(
+                        repo.owner.login,
                         repo.name,
                         repo.description ?? undefined
                       )
