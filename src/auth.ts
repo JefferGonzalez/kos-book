@@ -10,9 +10,13 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
   },
   pages: { signIn: '/auth' },
   callbacks: {
-    jwt: async ({ token, account }) => {
+    jwt: async ({ token, account, profile }) => {
       if (account) {
         token.accessToken = account.access_token
+      }
+
+      if (profile) {
+        token.username = profile.login
       }
 
       return token
@@ -21,7 +25,9 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       if (token.sub && session.user) {
         session.user.id = token.sub
       }
-
+      if(token.username && session.user){
+        session.user.username = token.username as string
+      }
       session.accessToken = token.accessToken as string
 
       return session

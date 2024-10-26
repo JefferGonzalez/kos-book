@@ -19,7 +19,7 @@ export const CreateProjectFromRepo = async (
     }
 
     const response = await getRepoContent(installationId, {
-      owner: user.name as string,
+      owner: user.username as string,
       repo
     })
 
