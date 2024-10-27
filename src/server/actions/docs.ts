@@ -25,7 +25,9 @@ export const CreateProject = async (values: FormData) => {
     UploadProjectSchema.parse(data)
 
     const file = data.file as File
-    const { nodes, nodesWithoutContent } = await buildTreeFromZip(file)
+    const buffer = Buffer.from(await file.arrayBuffer())
+
+    const { nodes, nodesWithoutContent } = await buildTreeFromZip(buffer)
 
     const projectId = await prisma.project.create({
       data: {

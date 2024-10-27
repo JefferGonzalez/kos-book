@@ -1,5 +1,4 @@
-import { VALID_EXTENSIONS } from '@/lib/docs'
-import { buildTree, cloneNodesWithoutContent, sortNodes } from '@/lib/nodes'
+import { buildTreeFromZip } from '@/lib/docs'
 import { App } from 'octokit'
 
 export const GitHubApp = () =>
@@ -20,34 +19,6 @@ export const getReposForInstallation = async (installationId: number) => {
   }
 }
 
-const getTree = async (
-  installationId: number,
-  { owner, repo, tree_sha }: { owner: string; repo: string; tree_sha: string }
-) => {
-  try {
-    const octokit = await GitHubApp().getInstallationOctokit(installationId)
-
-    const response = await octokit.rest.git.getTree({
-      owner,
-      repo,
-      tree_sha,
-      recursive: 'true'
-    })
-
-    if (response.status !== 200) {
-      throw new Error('Failed to get tree')
-    }
-
-    return response.data.tree
-  } catch (error) {
-    if (error instanceof Error) {
-      return error.message
-    }
-
-    return 'An unknown error occurred'
-  }
-}
-
 export const getRepoContent = async (
   installationId: number,
   { owner, repo }: { owner: string; repo: string }
@@ -61,60 +32,60 @@ export const getRepoContent = async (
     repo
   })
 
-  const {
-    data: {
-      commit: { sha }
-    }
-  } = await octokit.rest.repos.getBranch({
+  const response = await getZippedContent(installationId, {
     owner,
     repo,
     branch: default_branch
   })
 
-  const response = await getTree(installationId, { owner, repo, tree_sha: sha })
-
   if (typeof response === 'string') return response
 
-  const paths = response
-    .map((item) => item?.path)
-    .filter((path): path is string => path !== undefined)
-    .filter((path) => {
-      const extension = path.split('.').pop() ?? ''
-
-      return VALID_EXTENSIONS.includes(extension)
-    })
-
-  const nodes = await buildTree(paths, (path) =>
-    getFileContent(installationId, { owner, repo, path })
-  )
-
-  const nodesWithoutContent = cloneNodesWithoutContent(nodes)
+  const { nodes, nodesWithoutContent } = await buildTreeFromZip(response)
 
   return {
-    nodes: sortNodes(nodes),
-    nodesWithoutContent: sortNodes(nodesWithoutContent)
+    nodes,
+    nodesWithoutContent
   }
 }
 
-const getFileContent = async (
+const getZippedContent = async (
   installationId: number,
-  { owner, repo, path }: { owner: string; repo: string; path: string }
+  { owner, repo, branch }: { owner: string; repo: string; branch: string }
 ) => {
-  const octokit = await GitHubApp().getInstallationOctokit(installationId)
+  try {
+    const octokit = await GitHubApp().getInstallationOctokit(installationId)
 
-  const response = await octokit.rest.repos.getContent({
-    owner,
-    repo,
-    path
-  })
+    const response = await octokit.rest.repos.downloadZipballArchive({
+      owner,
+      repo,
+      ref: branch,
+      headers: {
+        accept: 'application/vnd.github.v3.raw'
+      }
+    })
 
-  if ('content' in response.data) {
-    const content = response.data.content
+    const statusCode = response.status
 
-    if (response.data.encoding === 'base64') return atob(content)
+    if (Number(statusCode) !== 200 && Number(statusCode) !== 302) {
+      throw new Error(
+        'Failed to get repository information. Please try again. If the issue persists, please contact support.'
+      )
+    }
 
-    return content
+    if (response.data instanceof ArrayBuffer) {
+      const buffer = Buffer.from(new Uint8Array(response.data))
+
+      return buffer
+    } else {
+      throw new Error(
+        'Failed to convert repository information. Please try again. If the issue persists, please contact support.'
+      )
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      return error.message
+    }
+
+    return 'An unknown error occurred'
   }
-
-  return ''
 }
