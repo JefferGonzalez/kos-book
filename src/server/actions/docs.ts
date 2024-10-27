@@ -11,18 +11,6 @@ import { createStreamableValue } from 'ai/rsc'
 import { revalidatePath } from 'next/cache'
 import { ZodError } from 'zod'
 
-const PROMPT = `
-  You are a professional technical writer. Your task is to create comprehensive documentation for the following code. Please include the following sections in your response:
-
-  1. **Overview**: Provide a brief overview of what the code does.
-  2. **Functionality**: Explain the functionality of each function or class in the code.
-  3. **Parameters**: Describe the parameters for each function, including their types and what they represent.
-  4. **Return Values**: Describe the return values for each function, including their types.
-  5. **Examples**: Provide one or more examples of how to use the functions or classes in the code.
-  6. **Error Handling**: Mention any error handling included in the code or potential errors to be aware of.
-  7. **Edge Cases**: Discuss any edge cases that the code handles or should handle.
-`
-
 export const CreateProject = async (values: FormData) => {
   try {
     const session = await auth()
@@ -168,21 +156,23 @@ export const updateDocumentation = async (
 }
 
 export const GenerateDocs = async (code: string) => {
+  const model = process.env.GPT_MODEL
+  const prompt = process.env.GPT_PROMPT
+  let user_message = process.env.GPT_USER_MESSAGE
+
+  if (!model || !prompt || !user_message) {
+    return { output: 'Configuration error. Please contact support.' }
+  }
+
+  user_message = user_message.replace('{code}', code)
+
   const stream = createStreamableValue()
-
-  const user_message = `
-    Here is the code:
-
-    ${code}
-
-    Now, please generate documentation for this code.
-  `
 
   ;(async () => {
     const { textStream } = await streamText({
-      model: openai('gpt-3.5-turbo'),
+      model: openai(model),
       messages: [
-        { role: 'system', content: PROMPT },
+        { role: 'system', content: prompt },
         { role: 'user', content: user_message }
       ]
     })

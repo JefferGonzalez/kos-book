@@ -51,6 +51,11 @@ export default function DocViewer({ id, currentNode }: Props) {
 
     const { output } = await GenerateDocs(response.code)
 
+    if (typeof output === 'string') {
+      toast.error(output)
+      return
+    }
+
     let content = ''
     for await (const delta of readStreamableValue(output)) {
       setContent((prev) => `${prev}${delta}`)
