@@ -17,12 +17,8 @@ export const buildTreeFromZip = async (file: File) => {
   const zipEntries = zip.getEntries()
 
   const paths = zipEntries
+    .filter((entry) => !entry.isDirectory)
     .map((entry) => entry.entryName)
-    .filter((entry) => {
-      const extension = entry.split('.').pop() ?? ''
-
-      return VALID_EXTENSIONS.includes(extension)
-    })
 
   const nodes = await buildTree(paths, (path) => getEntryContent(path, zip))
 
