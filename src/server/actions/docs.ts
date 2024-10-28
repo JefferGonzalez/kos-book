@@ -188,3 +188,30 @@ export const GenerateDocs = async (code: string) => {
 
   return { output: stream.value }
 }
+
+export const getProjectsByRepoIds = async (
+  repoIds: string[],
+  userId: string
+) => {
+  const projects = await prisma.project.findMany({
+    where: {
+      repoId: {
+        in: repoIds
+      },
+      userId
+    },
+    select: {
+      repoId: true,
+      id: true
+    }
+  })
+
+  return projects
+    .filter(
+      (item): item is { repoId: string; id: string } => item.repoId !== null
+    )
+    .map((item) => ({
+      repoId: item.repoId,
+      projectId: item.id
+    }))
+}

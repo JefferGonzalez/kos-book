@@ -26,7 +26,7 @@ export const getRepoContent = async (
   const octokit = await GitHubApp().getInstallationOctokit(installationId)
 
   const {
-    data: { default_branch }
+    data: { default_branch, id }
   } = await octokit.rest.repos.get({
     owner,
     repo
@@ -43,6 +43,7 @@ export const getRepoContent = async (
   const { nodes, nodesWithoutContent } = await buildTreeFromZip(response)
 
   return {
+    repoId: id,
     nodes,
     nodesWithoutContent
   }

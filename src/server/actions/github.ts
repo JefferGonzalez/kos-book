@@ -19,10 +19,7 @@ export const CreateProjectFromRepo = async (
       return { error: 'Not authenticated. Please login again.' }
     }
 
-    const response = await getRepoContent(installationId, {
-      owner,
-      repo
-    })
+    const response = await getRepoContent(installationId, { owner, repo })
 
     if (typeof response === 'string') {
       return { error: response }
@@ -34,7 +31,8 @@ export const CreateProjectFromRepo = async (
         description: description,
         files_code: JSON.stringify(response.nodes),
         documentation: JSON.stringify(response.nodesWithoutContent),
-        userId: user.id
+        userId: user.id,
+        repoId: response.repoId.toString()
       },
       select: {
         id: true

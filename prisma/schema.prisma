@@ -69,11 +69,14 @@ model Project {
   files_code    Json?  @db.JsonB()
   documentation Json?  @db.JsonB()
   userId        String
+  repoId        String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, repoId])
 }
 
 model GitHubInstallation {
