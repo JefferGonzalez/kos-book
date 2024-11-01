@@ -35,7 +35,7 @@ interface Props {
 
 export const MarkdownRenderer = ({ content }: Props) => {
   return (
-    <div className='m-2 prose prose-xl max-w-none'>
+    <div className='mx-2 p-2 prose prose-xl max-w-none'>
       <ReactMarkdown
         className={FONTCOLOR}
         components={{

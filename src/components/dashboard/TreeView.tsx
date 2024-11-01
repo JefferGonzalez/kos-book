@@ -20,7 +20,7 @@ export default function TreeView({ nodes, id }: Props) {
 
   return (
     <div>
-      <ResizablePanelGroup direction='horizontal' className='rounded-lg border border-blue-600 shadow-md p-10 dark:border-white '>
+      <ResizablePanelGroup direction='horizontal' className='rounded-lg border border-blue-600 shadow-md p-2 dark:border-white'>
         <ResizablePanel  defaultSize={20} className='h-full'>
           {nodes.map((item, index) => (
             <Item key={index} item={item} setCurrentNode={setCurrentNode}  />
