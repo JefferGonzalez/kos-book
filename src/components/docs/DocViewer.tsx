@@ -73,7 +73,10 @@ export default function DocViewer({ id, currentNode }: Props) {
   return (
     <>
       {content ? (
-        <MarkdownRenderer content={content} />
+        <div className='mx-2 p-2 prose prose-xl max-w-none'>
+          <h3 className='text-2xl font-bold uppercase'>{currentNode.name}</h3>
+          <MarkdownRenderer content={content} />
+        </div>
       ) : (
         <div className='flex flex-col gap-y-2 items-center justify-center h-full text-gray-500'>
           <h3 className='text-2xl font-bold'>
