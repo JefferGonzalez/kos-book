@@ -25,7 +25,7 @@ const Heading = ({
   const fontSizeClass = LEVELCLASS[level] ?? 'text-base'
 
   return (
-    <Tag className={`${FONTCOLOR} font-bold ${fontSizeClass}`}>{children}</Tag>
+    <Tag className={`${FONTCOLOR} font-bold ${fontSizeClass} mt-0`}>{children}</Tag>
   )
 }
 
@@ -35,41 +35,39 @@ interface Props {
 
 export const MarkdownRenderer = ({ content }: Props) => {
   return (
-    <div className='mx-2 p-2 prose prose-xl max-w-none'>
-      <ReactMarkdown
-        className={FONTCOLOR}
-        components={{
-          h1: ({ children }) => <Heading level={1}>{children}</Heading>,
-          h2: ({ children }) => <Heading level={2}>{children}</Heading>,
-          h3: ({ children }) => <Heading level={3}>{children}</Heading>,
-          h4: ({ children }) => <Heading level={4}>{children}</Heading>,
-          h5: ({ children }) => <Heading level={5}>{children}</Heading>,
-          h6: ({ children }) => <Heading level={6}>{children}</Heading>,
-          li: ({ children }) => <Heading level={4}>{children}</Heading>,
-          code({ className, children, ...props }) {
-            const match = /language-(\w+)/.exec(className || '')
+    <ReactMarkdown
+      className={FONTCOLOR}
+      components={{
+        h1: ({ children }) => <Heading level={1}>{children}</Heading>,
+        h2: ({ children }) => <Heading level={2}>{children}</Heading>,
+        h3: ({ children }) => <Heading level={3}>{children}</Heading>,
+        h4: ({ children }) => <Heading level={4}>{children}</Heading>,
+        h5: ({ children }) => <Heading level={5}>{children}</Heading>,
+        h6: ({ children }) => <Heading level={6}>{children}</Heading>,
+        li: ({ children }) => <Heading level={4}>{children}</Heading>,
+        code({ className, children, ...props }) {
+          const match = /language-(\w+)/.exec(className || '')
 
-            return match ? (
-              match[1] === 'plantuml' ? (
-                <UmlViewer value={String(children).replace(/\n$/, '')} />
-              ) : (
-                <>
-                  <CodeSnippet
-                    language={match[1]}
-                    value={String(children).replace(/\n$/, '')}
-                  />
-                </>
-              )
+          return match ? (
+            match[1] === 'plantuml' ? (
+              <UmlViewer value={String(children).replace(/\n$/, '')} />
             ) : (
-              <code className={`${className} ${FONTCOLOR}`} {...props}>
-                {children}
-              </code>
+              <>
+                <CodeSnippet
+                  language={match[1]}
+                  value={String(children).replace(/\n$/, '')}
+                />
+              </>
             )
-          }
-        }}
-      >
-        {content}
-      </ReactMarkdown>
-    </div>
+          ) : (
+            <code className={`${className} ${FONTCOLOR}`} {...props}>
+              {children}
+            </code>
+          )
+        }
+      }}
+    >
+      {content}
+    </ReactMarkdown>
   )
 }
