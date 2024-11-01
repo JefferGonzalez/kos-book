@@ -1,6 +1,7 @@
-import ReactMarkdown from 'react-markdown'
 import CodeSnippet from '@/components/code/CodeSnippet'
+import UmlViewer from '@/components/code/UmlDiagramViewer'
 import { ReactNode } from 'react'
+import ReactMarkdown from 'react-markdown'
 
 const FONTCOLOR = 'text-zinc-800 dark:text-zinc-200'
 const LEVELCLASS: Record<number, string> = {
@@ -49,10 +50,16 @@ export const MarkdownRenderer = ({ content }: Props) => {
             const match = /language-(\w+)/.exec(className || '')
 
             return match ? (
-              <CodeSnippet
-                language={match[1]}
-                value={String(children).replace(/\n$/, '')}
-              />
+              match[1] === 'plantuml' ? (
+                <UmlViewer value={String(children).replace(/\n$/, '')} />
+              ) : (
+                <>
+                  <CodeSnippet
+                    language={match[1]}
+                    value={String(children).replace(/\n$/, '')}
+                  />
+                </>
+              )
             ) : (
               <code className={`${className} ${FONTCOLOR}`} {...props}>
                 {children}
