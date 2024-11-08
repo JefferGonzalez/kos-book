@@ -6,6 +6,7 @@ import { findNode, TreeNode, updateNode } from '@/lib/nodes'
 import { UploadProjectSchema } from '@/schemas/docs'
 import { prisma } from '@/server/db'
 import { openai } from '@ai-sdk/openai'
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 import { streamText } from 'ai'
 import { createStreamableValue } from 'ai/rsc'
 import { revalidatePath } from 'next/cache'
@@ -54,6 +55,20 @@ export const CreateProject = async (values: FormData) => {
 
       return { error: fieldErrors }
     }
+
+    if (error instanceof PrismaClientKnownRequestError) {
+      if (error.code === 'P2002') {
+        const fieldErrors = [
+          {
+            field: 'name',
+            message: 'The name already exists. Please choose a different name for the project.'
+          }
+        ]
+
+        return { error: fieldErrors }
+      }
+    }
+
     return { error: 'An error occurred while creating the project.' }
   }
 }

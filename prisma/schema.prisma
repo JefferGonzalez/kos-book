@@ -64,7 +64,7 @@ model VerificationToken {
 
 model Project {
   id            String @id @default(cuid())
-  name          String @db.VarChar(255)
+  name          String @db.VarChar(255) @unique
   description   String @default("No description") @db.Text()
   files_code    Json?  @db.JsonB()
   documentation Json?  @db.JsonB()
