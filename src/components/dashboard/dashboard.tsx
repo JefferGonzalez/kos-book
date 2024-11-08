@@ -8,6 +8,8 @@ import { useState } from 'react'
 import { getRandomColor } from '@/lib/utils'
 
 import '@/styles/dashboard.css'
+import { toast } from 'sonner'
+import { deleteProject } from '@/server/actions/docs'
 interface Props {
   projects: Project[]
 }
@@ -22,6 +24,20 @@ export default function Dashboard({ projects }: Props) {
 
   const handleEditProject = (projectId: string) => {
     router.push(`/dashboard/preview/${projectId}`)
+  }
+
+  const handleDeleteProject = async (projectId: string) => {
+    try {
+      const response = await deleteProject(projectId)
+
+      if (response.error) {
+        toast.error(response.error)
+
+        return
+      }
+    } catch {
+      toast.error('An error occurred while deleting the project.')
+    }
   }
 
   const filteredProjects = projects.filter((project) =>
@@ -44,6 +60,7 @@ export default function Dashboard({ projects }: Props) {
               title={project.name}
               description={project.description}
               onEdit={() => handleEditProject(project.id)}
+              onDelete={() => handleDeleteProject(project.id)}
               onVisit={handleVisitProject}
               backgroundColor={getRandomColor()}
             />

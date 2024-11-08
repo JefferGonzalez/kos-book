@@ -61,7 +61,8 @@ export const CreateProject = async (values: FormData) => {
         const fieldErrors = [
           {
             field: 'name',
-            message: 'The name already exists. Please choose a different name for the project.'
+            message:
+              'The name already exists. Please choose a different name for the project.'
           }
         ]
 
@@ -170,6 +171,38 @@ export const updateDocumentation = async (
   }
 
   return false
+}
+
+export const deleteProject = async (projectId: string) => {
+  try {
+    const session = await auth()
+    const user = session?.user
+
+    if (!session || !user || !user.id) {
+      return { error: 'Not authenticated. Please login again.' }
+    }
+
+    await prisma.project.delete({
+      where: {
+        id: projectId,
+        userId: user.id
+      }
+    })
+
+    revalidatePath('/dashboard')
+
+    return { data: true }
+  } catch (error) {
+    if (error instanceof PrismaClientKnownRequestError) {
+      if (error.code === 'P2003' || error.code === 'P2023') {
+        return { error: 'Not authenticated. Please login again.' }
+      } else if (error.code === 'P2025') {
+        return { error: 'Project not found, please refresh the page.' }
+      }
+    }
+
+    return { error: 'An error occurred while deleting the project.' }
+  }
 }
 
 export const GenerateDocs = async (code: string) => {
