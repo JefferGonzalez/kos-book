@@ -23,8 +23,8 @@ import "@/styles/Button.css";
 
 export default function UploadForm() {
   const router = useRouter();
-
   const [loading, setLoading] = useState(false);
+  const [fileName, setFileName] = useState("");
 
   const form = useForm<UploadProject>({
     resolver: zodResolver(UploadProjectSchema),
@@ -50,7 +50,6 @@ export default function UploadForm() {
         if (Array.isArray(response.error)) {
           for (const error of response.error) {
             const name = error.field as keyof UploadProject;
-
             form.setError(name, { message: error.message });
           }
         }
@@ -64,7 +63,6 @@ export default function UploadForm() {
       }
 
       const projectId = response.data?.id;
-
       if (!projectId) {
         toast.error("An error occurred while creating the project.");
       }
@@ -79,9 +77,12 @@ export default function UploadForm() {
       }, 1000);
 
       form.reset();
+      setFileName(""); 
     } catch (error) {
       console.error(error);
       toast.error("An error occurred while creating the project.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -93,17 +94,17 @@ export default function UploadForm() {
         encType="multipart/form-data"
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        <h2 className="text-2xl font-extrabold text-center text-gray-700 mb-6 dark:text-white ">
+        <h2 className="text-2xl font-extrabold text-center text-gray-700 mb-6 dark:text-white">
           Upload your code!
         </h2>
-
+        {/* Nombre del proyecto */}
         <div className="mb-6">
           <FormField
             control={form.control}
             name="name"
             render={({ field, fieldState }) => (
               <FormItem className="w-full">
-                <FormLabel className="block text-gray-700 text-sm font-bold mb-2 dark:text-white ">
+                <FormLabel className="block text-gray-700 text-sm font-bold mb-2 dark:text-white">
                   Project&apos;s name:
                 </FormLabel>
                 <FormControl>
@@ -114,20 +115,20 @@ export default function UploadForm() {
                     {...field}
                   />
                 </FormControl>
-
                 <FormMessage>{fieldState.error?.message}</FormMessage>
               </FormItem>
             )}
           />
         </div>
 
+        {/* Descripción del proyecto */}
         <div className="mb-6">
           <FormField
             control={form.control}
             name="description"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel className="block text-gray-700 text-sm font-bold mb-2 dark:text-white ">
+                <FormLabel className="block text-gray-700 text-sm font-bold mb-2 dark:text-white">
                   Description (optional):
                 </FormLabel>
                 <FormControl>
@@ -144,13 +145,14 @@ export default function UploadForm() {
           />
         </div>
 
+        {/* Carga de archivo */}
         <div className="mb-6">
           <FormField
             name="file"
             control={form.control}
             render={({ field, fieldState }) => (
               <FormItem className="w-full">
-                <FormLabel className="block text-gray-900 text-sm font-bold dark:text-white ">
+                <FormLabel className="block text-gray-900 text-sm font-bold dark:text-white">
                   Code
                 </FormLabel>
                 <FormControl>
@@ -161,8 +163,10 @@ export default function UploadForm() {
                     className="hidden"
                     onChange={(e) => {
                       const file = e.target.files?.[0];
-
-                      if (file) field.onChange(file);
+                      if (file) {
+                        field.onChange(file);
+                        setFileName(file.name); 
+                      }
                     }}
                     disabled={loading}
                   />
@@ -174,15 +178,21 @@ export default function UploadForm() {
                 >
                   Choose file
                 </label>
+                {fileName && (
+                  <p className="text-gray-700 mt-2 dark:text-white">
+                    File selected: {fileName}
+                  </p>
+                )}
                 <FormMessage>{fieldState.error?.message}</FormMessage>
               </FormItem>
             )}
           />
         </div>
 
+        {/* Botón de submit */}
         <div className="flex items-center justify-center">
           <button
-            className="button button_upload  dark:text-white  "
+            className="button button_upload dark:text-white"
             disabled={loading}
             type="submit"
           >
