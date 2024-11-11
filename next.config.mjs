@@ -7,7 +7,7 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'www.plantuml.com',
         port: '',
-        pathname: '/plantuml/png/**'
+        pathname: '/plantuml/**'
       }
     ]
   },
