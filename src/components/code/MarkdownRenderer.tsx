@@ -25,15 +25,18 @@ const Heading = ({
   const fontSizeClass = LEVELCLASS[level] ?? 'text-base'
 
   return (
-    <Tag className={`${FONTCOLOR} font-bold ${fontSizeClass} mt-0`}>{children}</Tag>
+    <Tag className={`${FONTCOLOR} font-bold ${fontSizeClass} mt-0`}>
+      {children}
+    </Tag>
   )
 }
 
 interface Props {
   content: string
+  loading: boolean
 }
 
-export const MarkdownRenderer = ({ content }: Props) => {
+export const MarkdownRenderer = ({ content, loading }: Props) => {
   return (
     <ReactMarkdown
       className={FONTCOLOR}
@@ -50,14 +53,15 @@ export const MarkdownRenderer = ({ content }: Props) => {
 
           return match ? (
             match[1] === 'plantuml' ? (
-              <UmlViewer value={String(children).replace(/\n$/, '')} />
+              <UmlViewer
+                value={String(children).replace(/\n$/, '')}
+                loading={loading}
+              />
             ) : (
-              <>
-                <CodeSnippet
-                  language={match[1]}
-                  value={String(children).replace(/\n$/, '')}
-                />
-              </>
+              <CodeSnippet
+                language={match[1]}
+                value={String(children).replace(/\n$/, '')}
+              />
             )
           ) : (
             <code className={`${className} ${FONTCOLOR}`} {...props}>

@@ -21,6 +21,7 @@ interface Props {
 
 export default function DocViewer({ id, currentNode }: Props) {
   const [content, setContent] = useState<string>('')
+  const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
     if (!currentNode.content) {
@@ -36,6 +37,8 @@ export default function DocViewer({ id, currentNode }: Props) {
       toast.error('No node selected.')
       return
     }
+
+    setLoading(true)
 
     const response = await getContentNode(id, currentNode.id)
 
@@ -62,6 +65,8 @@ export default function DocViewer({ id, currentNode }: Props) {
       content += delta
     }
 
+    setLoading(false)
+
     const ok = await updateDocumentation(id, currentNode.id, content)
 
     if (!ok) {
@@ -75,7 +80,7 @@ export default function DocViewer({ id, currentNode }: Props) {
       {content ? (
         <div className='mx-2 p-2 prose prose-xl max-w-none'>
           <h3 className='text-2xl font-bold uppercase'>{currentNode.name}</h3>
-          <MarkdownRenderer content={content} />
+          <MarkdownRenderer content={content} loading={loading} />
         </div>
       ) : (
         <div className='flex flex-col gap-y-2 items-center justify-center h-full text-gray-500'>
