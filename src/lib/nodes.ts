@@ -122,3 +122,45 @@ export const sortNodes = (nodes: TreeNode[]): TreeNode[] => {
 
   return nodes
 }
+
+export const filterNodesWithContent = (nodes: TreeNode[]): TreeNode[] => {
+  return nodes
+    .map((node) => {
+      if (node.content) {
+        return node
+      }
+
+      if (node.children) {
+        const children = filterNodesWithContent(node.children)
+
+        if (children.length) {
+          return {
+            name: node.name,
+            children
+          }
+        }
+      }
+
+      return null
+    })
+    .filter((node) => node !== null) as TreeNode[]
+}
+
+export const flattenWithHierarchy = (
+  nodes: TreeNode[],
+  parentPath = ''
+): TreeNode[] => {
+  return nodes.reduce((acc, node) => {
+    const currentPath = parentPath ? `${parentPath}/${node.name}` : node.name
+
+    if (node.content) {
+      acc.push({ ...node, name: currentPath })
+    }
+
+    if (node.children && node.children.length > 0) {
+      acc = acc.concat(flattenWithHierarchy(node.children, currentPath))
+    }
+
+    return acc
+  }, [] as TreeNode[])
+}

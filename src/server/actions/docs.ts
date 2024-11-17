@@ -10,6 +10,7 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 import { streamText } from 'ai'
 import { createStreamableValue } from 'ai/rsc'
 import { revalidatePath } from 'next/cache'
+import { notFound } from 'next/navigation'
 import { ZodError } from 'zod'
 
 export const CreateProject = async (values: FormData) => {
@@ -105,6 +106,24 @@ export const ViewProject = async (projectId: string) => {
       userId: user.id
     }
   })
+
+  return { project }
+}
+
+export const GetProjectByName = async (name: string) => {
+  const project = await prisma.project.findFirst({
+    where: {
+      name
+    },
+    select: {
+      files_code: true,
+      documentation: true
+    }
+  })
+
+  if (!project) {
+    return notFound()
+  }
 
   return { project }
 }

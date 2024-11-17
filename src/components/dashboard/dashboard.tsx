@@ -18,8 +18,8 @@ export default function Dashboard({ projects }: Props) {
   const router = useRouter()
   const [searchTerm, setSearchTerm] = useState('')
 
-  const handleVisitProject = () => {
-    console.log('Visiting project...')
+  const handleVisitProject = (projectName: string) => {
+    router.push(`/docs/${projectName}`)
   }
 
   const handleEditProject = (projectId: string) => {
@@ -61,7 +61,7 @@ export default function Dashboard({ projects }: Props) {
               description={project.description}
               onEdit={() => handleEditProject(project.id)}
               onDelete={() => handleDeleteProject(project.id)}
-              onVisit={handleVisitProject}
+              onVisit={() => handleVisitProject(project.name)}
               backgroundColor={getRandomColor()}
             />
           ))}
