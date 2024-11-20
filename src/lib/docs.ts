@@ -23,6 +23,8 @@ const getEntryContent = async (root: string, path: string, zip: AdmZip) => {
 }
 
 export const buildTreeFromZip = async (buffer: Buffer) => {
+  const LANGUAGE_EXTENSIONS = process.env.LANGUAGE_EXTENSIONS as string
+
   const zip = new AdmZip(buffer)
   const zipEntries = zip.getEntries()
 
@@ -33,6 +35,11 @@ export const buildTreeFromZip = async (buffer: Buffer) => {
     .map(({ entryName }) =>
       rootFolder ? entryName.replace(`${rootFolder}/`, '') : entryName
     )
+    .filter((path) => {
+      const extension = path.split('.').pop()
+
+      return LANGUAGE_EXTENSIONS.includes(extension || '')
+    })
 
   const nodes = await buildTree(paths, (path) =>
     getEntryContent(rootFolder, path, zip)
