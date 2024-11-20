@@ -19,7 +19,8 @@ export default function TreeNodeReader({ nodes, id }: Props) {
   const [currentNode, setCurrentNode] = useState<TreeNode | null>(null)
 
   return (
-    <ResizablePanelGroup
+    <div>
+      <ResizablePanelGroup
       direction='horizontal'
       className='rounded-lg border border-blue-600 shadow-md p-2 dark:border-white'
     >
@@ -37,5 +38,6 @@ export default function TreeNodeReader({ nodes, id }: Props) {
         )}
       </ResizablePanel>
     </ResizablePanelGroup>
+    </div>
   )
 }
