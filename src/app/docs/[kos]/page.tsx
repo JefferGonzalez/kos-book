@@ -33,7 +33,7 @@ export default async function Page({ params }: Props) {
       {flatNodes.length > 0 ? (
         <Docs nodes={flatNodes} title={params.kos} />
       ) : (
-        <div className='flex flex-col items-center gap-y-3'>
+        <div className='min-h-[calc(100vh-5rem)] flex flex-col items-center gap-y-3'>
           <p className='text-2xl font-bold text-blue-600 dark:text-white'>
             No documentation found
           </p>

@@ -45,6 +45,20 @@ export default function RootLayout({
             <Toaster />
           </ThemeProvider>
         </SessionProvider>
+
+        <footer className='sticky bottom-0 left-0 right-0 bg-zinc-200 dark:bg-zinc-800 text-center text-xs text-zinc-500 dark:text-zinc-400 py-4'>
+          <p>
+            Powered by{' '}
+            <a
+              href='https://openai.com/'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='text-zinc-700 dark:text-zinc-300'
+            >
+              OpenAI
+            </a>
+          </p>
+        </footer>
       </body>
     </html>
   )
