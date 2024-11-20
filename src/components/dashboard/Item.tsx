@@ -1,51 +1,68 @@
 import { TreeNode } from '@/lib/nodes'
-import { ChevronRightIcon } from 'lucide-react'
+import { cn } from '@/lib/utils'
+import { ChevronDown, ChevronRight, File, Folder } from 'lucide-react'
 import { useState } from 'react'
 
-interface ItemProps {
-  item: TreeNode
-  setCurrentNode: (node: TreeNode) => void
+interface Props {
+  node: TreeNode
+  onSelectNode: (node: TreeNode | null) => void
 }
 
-export function Item({ item, setCurrentNode }: ItemProps) {
-  const [isOpened, setIsOpened] = useState<boolean>(false)
+export default function Item({ node, onSelectNode }: Props) {
+  const [isOpen, setIsOpen] = useState(false)
+  const isFolder = Array.isArray(node.children) && node.children.length > 0
 
-  const toggleSubMenu = () => {
-    if (Array.isArray(item.children) && item.children.length > 0) {
-      setIsOpened(!isOpened)
+  const handleToggle = () => {
+    if (isFolder) {
+      setIsOpen((prev) => !prev)
+      onSelectNode(null)
     } else {
-      setCurrentNode(item)
+      onSelectNode(node)
     }
   }
 
+  const Icon = isFolder ? (isOpen ? ChevronDown : ChevronRight) : File
+  const FolderIcon = isFolder && <Folder className='size-4 text-yellow-500' />
+
   return (
-    <div className='menu-item'>
+    <li className='menu-item'>
       <button
-        onClick={toggleSubMenu}
-        className={`flex items-center justify-between w-full p-2 text-left hover:bg-gray-400 rounded-lg hover:text-white transition duration-300 ease-in-out dark:bg-[#111827] ${
-          isOpened ? 'font-bold bg-gray-300 dark:bg-gray-500' : ''
-        }`}
+        aria-expanded={isOpen}
+        type='button'
+        className={cn(
+          'flex items-center w-full px-2 py-1 text-left hover:bg-gray-400 rounded-lg hover:text-white transition duration-300 ease-in-out dark:bg-[#111827]',
+          isOpen && 'font-bold bg-gray-300 dark:bg-gray-500',
+          !isFolder && 'text-blue-600'
+        )}
+        onClick={handleToggle}
       >
-        <span className='flex items-center gap-2'>
-          {Array.isArray(item.children) && item.children.length > 0 && (
-            <ChevronRightIcon
-              size={16}
-              className={`transform transition-transform ${
-                isOpened ? 'rotate-90' : ''
-              }`}
-            />
-          )}
-          {item.name}
-        </span>
+        <Icon className='size-3' />
+        {FolderIcon}
+        <span className='ml-2'>{node.name}</span>
       </button>
 
-      {Array.isArray(item.children) && item.children.length > 0 && isOpened && (
-        <div className='sub-menu pl-4 border-l border-gray-300 mt-2'>
-          {item.children.map((subitem, index) => (
-            <Item key={index} item={subitem} setCurrentNode={setCurrentNode} />
-          ))}
-        </div>
+      {isOpen && isFolder && node.children && (
+        <SubItem nodes={node.children} onSelectNode={onSelectNode} />
       )}
-    </div>
+    </li>
+  )
+}
+
+interface SubMenuProps {
+  nodes: TreeNode[]
+  onSelectNode: (node: TreeNode | null) => void
+}
+
+function SubItem({ nodes, onSelectNode }: SubMenuProps) {
+  return (
+    <ul className='sub-menu pl-4 border-l border-gray-300 mt-2'>
+      {nodes.map((node) => (
+        <Item
+          key={node.id || node.name}
+          node={node}
+          onSelectNode={onSelectNode}
+        />
+      ))}
+    </ul>
   )
 }

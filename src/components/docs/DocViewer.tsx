@@ -83,7 +83,7 @@ export default function DocViewer({ id, currentNode }: Props) {
           <MarkdownRenderer content={content} loading={loading} />
         </div>
       ) : (
-        <div className='flex flex-col gap-y-2 items-center justify-center h-full text-gray-500'>
+        <div className='flex flex-col gap-y-2 items-center h-full text-gray-500'>
           <h3 className='text-2xl font-bold'>
             Documentation not available for {currentNode.name}
           </h3>

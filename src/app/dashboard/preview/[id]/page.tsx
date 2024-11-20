@@ -1,4 +1,4 @@
-import TreeView from '@/components/dashboard/TreeView'
+import TreeNodeReader from '@/components/dashboard/TreeNodeReader'
 import { TreeNode } from '@/lib/nodes'
 import { ViewProject } from '@/server/actions/docs'
 import { notFound } from 'next/navigation'
@@ -42,7 +42,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         )}
       </header>
 
-      <TreeView nodes={nodes} id={params.id} />
+      <TreeNodeReader nodes={nodes} id={params.id} />
     </div>
   )
 }
