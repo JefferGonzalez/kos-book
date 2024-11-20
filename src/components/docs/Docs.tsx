@@ -21,6 +21,8 @@ export default function Docs({ nodes, title }: Props) {
     try {
       setLoading(true)
       await generatePDF(title)
+
+      toast.success(`PDF generated successfully!`)
     } catch (error) {
       console.error(error)
       toast.error(

@@ -28,6 +28,8 @@ export default function UmlDiagramViewer({ value, loading }: Props) {
       a.href = URL.createObjectURL(blob)
       a.download = 'diagram.png'
       a.click()
+
+      toast.success('UML diagram downloaded successfully!')
     } catch {
       toast.error('Failed to download UML diagram')
     }
