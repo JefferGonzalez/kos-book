@@ -32,6 +32,15 @@ export default function DocViewer({ id, currentNode }: Props) {
     setContent(currentNode.content)
   }, [id, currentNode])
 
+  useEffect(() => {
+    if (loading && content) {
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: 'smooth'
+      })
+    }
+  }, [content, loading])
+
   const generateDocumentation = async () => {
     try {
       if (!currentNode.id) {
@@ -95,7 +104,9 @@ export default function DocViewer({ id, currentNode }: Props) {
     <>
       {content ? (
         <div className='mx-2 p-2 prose prose-xl max-w-none'>
-          <h3 className='text-zinc-800 dark:text-zinc-200 text-2xl font-bold uppercase'>{currentNode.name}</h3>
+          <h3 className='text-zinc-800 dark:text-zinc-200 text-2xl font-bold uppercase'>
+            {currentNode.name}
+          </h3>
           <MarkdownRenderer content={content} loading={loading} />
         </div>
       ) : (
