@@ -32,6 +32,8 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   if (typeof project.documentation === 'string') {
     nodes = JSON.parse(project.documentation) as TreeNode[]
+  } else {
+    nodes = JSON.parse(JSON.stringify(project.documentation)) as TreeNode[]
   }
 
   return (
