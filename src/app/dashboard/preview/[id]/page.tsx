@@ -3,6 +3,12 @@ import { TreeNode } from '@/lib/nodes'
 import { ViewProject } from '@/server/actions/docs'
 import { notFound } from 'next/navigation'
 
+// Allow streaming responses up to 60 seconds
+// See:
+// https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#maxduration
+// https://vercel.com/docs/functions/runtimes#max-duration
+export const maxDuration = 60
+
 export default async function Page({ params }: { params: { id: string } }) {
   const response = await ViewProject(params.id)
 
