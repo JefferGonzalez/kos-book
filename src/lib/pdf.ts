@@ -11,9 +11,9 @@ export const generatePDF = async (id: string) => {
 
   const options = {
     filename: `${id}.pdf`,
-    pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
+    pagebreak: { mode: ['avoid-all'] },
     html2canvas: { scale: 2 },
-    jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+    jsPDF: { unit: 'in', format: 'a3', orientation: 'portrait' }
   }
 
   await html2pdf().set(options).from(element).save()
