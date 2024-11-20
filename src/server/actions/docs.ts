@@ -142,11 +142,15 @@ export const getContentNode = async (projectId: string, nodeId: string) => {
     return { error: 'Project not found. Please refresh the page.' }
   }
 
-  if (typeof project.files_code !== 'string') {
+  let code: TreeNode[] = []
+
+  if (typeof project.files_code === 'string') {
+    code = JSON.parse(project.files_code) as TreeNode[]
+  } else if (typeof project.files_code === 'object') {
+    code = JSON.parse(JSON.stringify(project.files_code)) as TreeNode[]
+  } else {
     return { error: 'No code found in the project. Please refresh the page.' }
   }
-
-  const code = JSON.parse(project.files_code) as TreeNode[]
 
   const node = findNode(code, nodeId)
 
