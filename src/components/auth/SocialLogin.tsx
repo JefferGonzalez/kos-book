@@ -44,7 +44,7 @@ function SocialLoginContent() {
   }
 
   return (
-    <section className='auth-buttons'>
+    <section className='auth-buttons min-h-[calc(100vh-5rem)]'>
       {social.map((social) => (
         <Button
           key={social.name}
