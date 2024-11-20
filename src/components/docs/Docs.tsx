@@ -46,7 +46,7 @@ export default function Docs({ nodes, title }: Props) {
         )}
       </Button>
       <div id={title}>
-        <h1 className='text-4xl font-bold uppercase text-center mt-4'>
+        <h1 className='text-zinc-800 dark:text-zinc-200 text-4xl font-bold uppercase text-center mt-4'>
           {title}
         </h1>
         {nodes.map((node, index) => {
@@ -55,7 +55,7 @@ export default function Docs({ nodes, title }: Props) {
               key={node.id}
               className='mx-2 p-2 prose prose-xl max-w-none'
             >
-              <h3 className='text-2xl font-bold uppercase'>{node.name}</h3>
+              <h3 className='text-zinc-800 dark:text-zinc-200 text-2xl font-bold uppercase'>{node.name}</h3>
               <MarkdownRenderer
                 content={node.content as string}
                 loading={false}

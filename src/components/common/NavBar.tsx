@@ -32,7 +32,7 @@ export default function NavBar() {
   }
 
   return (
-    <nav className='no-print flex items-center justify-between sticky p-4 px-11 top-0 z-40 backdrop-blur-lg bg-gray-800/80 text-white shadow-md'>
+    <nav className='flex items-center justify-between sticky p-4 px-11 top-0 z-40 backdrop-blur-lg bg-gray-800/80 text-white shadow-md'>
       <Link href='/'>
         <span className='navbar-title'>KOS&apos;BOOK | Documentation Tool</span>
       </Link>
@@ -55,7 +55,7 @@ export default function NavBar() {
 
         {isAuthenticated && (
           <Button
-            className='flex gap-x-2'
+            className='text-zinc-800 dark:text-zinc-200 flex gap-x-2'
             variant={'outline'}
             onClick={signOut}
           >

@@ -53,7 +53,7 @@ export default function UmlDiagramViewer({ value, loading }: Props) {
       {!error ? (
         <div className='relative'>
           <button
-            className='absolute top-2 right-2 px-2 py-1 dark:text-zinc-800 text-zinc-200 text-xs bg-gray-800 rounded'
+            className='absolute top-2 right-2 px-2 py-1 text-zinc-200 text-xs bg-gray-800 rounded'
             onClick={handleDownload}
             title='Download UML diagram'
             data-html2canvas-ignore='true'

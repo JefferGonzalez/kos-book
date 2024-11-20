@@ -18,7 +18,7 @@ export default function ChangeTheme() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          className='rounded-xl'
+          className='text-zinc-800 dark:text-zinc-200  rounded-xl'
           variant={'outline'}
           size={'sm'}
           title='Change theme'
