@@ -33,45 +33,61 @@ export default function DocViewer({ id, currentNode }: Props) {
   }, [id, currentNode])
 
   const generateDocumentation = async () => {
-    if (!currentNode.id) {
-      toast.error('No node selected.')
-      return
-    }
+    try {
+      if (!currentNode.id) {
+        toast.error('No node selected.')
+        return
+      }
 
-    setLoading(true)
+      setLoading(true)
 
-    const response = await getContentNode(id, currentNode.id)
+      const response = await getContentNode(id, currentNode.id)
 
-    if (response.error) {
-      toast.error(response.error)
-      return
-    }
+      if (response.error) {
+        toast.error(response.error)
+        setLoading(false)
+        return
+      }
 
-    if (!response.code) {
-      toast.error('No code found in the project.')
-      return
-    }
+      if (!response.code) {
+        toast.error('No code found in the project.')
+        setLoading(false)
+        return
+      }
 
-    const { output } = await GenerateDocs(response.code)
+      const { output } = await GenerateDocs(response.code)
 
-    if (typeof output === 'string') {
-      toast.error(output)
-      return
-    }
+      if (typeof output === 'string') {
+        toast.error(output)
+        setLoading(false)
+        return
+      }
 
-    let content = ''
-    for await (const delta of readStreamableValue(output)) {
-      setContent((prev) => `${prev}${delta}`)
-      content += delta
-    }
+      let content = ''
+      for await (const delta of readStreamableValue(output)) {
+        setContent((prev) => `${prev}${delta}`)
+        content += delta
+      }
 
-    setLoading(false)
+      setLoading(false)
 
-    const ok = await updateDocumentation(id, currentNode.id, content)
+      const ok = await updateDocumentation(id, currentNode.id, content)
 
-    if (!ok) {
-      toast.error('Something went wrong. Please try again.')
-      return
+      if (!ok) {
+        toast.error('Something went wrong. Please try again.')
+        setContent('')
+        return
+      }
+    } catch (error) {
+      console.log(error)
+      toast.error(
+        'Something went wrong. Please try again. If the problem persists, contact support.',
+        {
+          duration: 5000
+        }
+      )
+      setContent('')
+      setLoading(false)
     }
   }
 
