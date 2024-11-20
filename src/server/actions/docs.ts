@@ -174,11 +174,19 @@ export const updateDocumentation = async (
 
   if (!project) return false
 
+  let documentation: TreeNode[] = []
+
   if (typeof project.documentation === 'string') {
-    const documentation = JSON.parse(project.documentation) as TreeNode[]
+    documentation = JSON.parse(project.documentation) as TreeNode[]
+  } else if (typeof project.documentation === 'object') {
+    documentation = JSON.parse(JSON.stringify(project.documentation)) as TreeNode[]
+  } else {
+    return false
+  }
 
-    if (!updateNode(documentation, nodeId, content)) return false
+  if (!updateNode(documentation, nodeId, content)) return false
 
+  try {
     await prisma.project.update({
       where: {
         id: projectId
@@ -191,9 +199,9 @@ export const updateDocumentation = async (
     revalidatePath(`/dashboard/preview/${projectId}`)
 
     return true
+  } catch {
+    return false
   }
-
-  return false
 }
 
 export const deleteProject = async (projectId: string) => {
