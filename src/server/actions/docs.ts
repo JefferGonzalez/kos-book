@@ -116,7 +116,7 @@ export const GetProjectByName = async (name: string) => {
       name
     },
     select: {
-      files_code: true,
+      id: true,
       documentation: true
     }
   })

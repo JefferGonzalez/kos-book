@@ -5,6 +5,7 @@ import {
   TreeNode
 } from '@/lib/nodes'
 import { GetProjectByName } from '@/server/actions/docs'
+import Link from 'next/link'
 
 interface Props {
   params: {
@@ -29,7 +30,22 @@ export default async function Page({ params }: Props) {
 
   return (
     <section className='my-4 rounded-lg border border-blue-600 shadow-md p-2 dark:border-white'>
-      <Docs nodes={flatNodes} title={params.kos} />
+      {flatNodes.length > 0 ? (
+        <Docs nodes={flatNodes} title={params.kos} />
+      ) : (
+        <div className='flex flex-col items-center gap-y-3'>
+          <p className='text-2xl font-bold text-blue-600 dark:text-white'>
+            No documentation found
+          </p>
+
+          <Link
+            href={`/dashboard/preview/${project.id}`}
+            className='text-sm text-gray-400 dark:text-gray-600 bg-gray-800 dark:bg-gray-200 px-4 py-3 rounded-lg hover:bg-gray-700 dark:hover:bg-gray-300'
+          >
+            Create documentation
+          </Link>
+        </div>
+      )}
     </section>
   )
 }
