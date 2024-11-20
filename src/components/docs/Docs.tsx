@@ -46,6 +46,9 @@ export default function Docs({ nodes, title }: Props) {
         )}
       </Button>
       <div id={title}>
+        <h1 className='text-4xl font-bold uppercase text-center mt-4'>
+          {title}
+        </h1>
         {nodes.map((node, index) => {
           return (
             <article
