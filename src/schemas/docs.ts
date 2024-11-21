@@ -9,7 +9,12 @@ export const UploadProjectSchema = z.object({
       invalid_type_error: 'Project name must be a string.',
       required_error: 'Project name is required.'
     })
-    .min(1, { message: 'Please enter a project name.' }),
+    .min(1, { message: 'Please enter a project name.' })
+    .max(255, { message: 'Project name must be less than 255 characters.' })
+    .regex(/^[a-zA-Z0-9-_\s]+$/, {
+      message:
+        'Project name must only contain letters, numbers, hyphens and underscores.'
+    }),
   description: z.string().optional(),
   file: z
     .instanceof(File, {
