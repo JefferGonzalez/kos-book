@@ -19,7 +19,7 @@ export default function Dashboard({ projects }: Props) {
   const [searchTerm, setSearchTerm] = useState('')
 
   const handleVisitProject = (projectName: string) => {
-    router.push(`/docs/${projectName}`)
+    router.push(`/docs/${projectName.replaceAll(' ', '-')}`)
   }
 
   const handleEditProject = (projectId: string) => {

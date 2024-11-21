@@ -14,7 +14,8 @@ interface Props {
 }
 
 export default async function Page({ params }: Props) {
-  const { project } = await GetProjectByName(params.kos)
+  const title = params.kos.replaceAll('-', ' ')
+  const { project } = await GetProjectByName(title)
 
   let nodes: TreeNode[] = []
 
@@ -31,7 +32,7 @@ export default async function Page({ params }: Props) {
   return (
     <section className='my-4 rounded-lg border border-blue-600 shadow-md p-2 dark:border-white'>
       {flatNodes.length > 0 ? (
-        <Docs nodes={flatNodes} title={params.kos} />
+        <Docs nodes={flatNodes} title={title} />
       ) : (
         <div className='min-h-[calc(100vh-5rem)] flex flex-col items-center gap-y-3'>
           <p className='text-2xl font-bold text-blue-600 dark:text-white'>
