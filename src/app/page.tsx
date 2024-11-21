@@ -20,11 +20,13 @@ export default function Landing() {
           </Button>
         </Link>
 
-        <Button className='button dark:text-white' variant={'outline'}>
-          <GitHubIcon className='size-8' />
-          <span className='sr-only'>Star on GitHub</span>
-          Star on GitHub
-        </Button>
+        <Link href='https://github.com/JefferGonzalez/kos-book' target='_blank'>
+          <Button className='button dark:text-white' variant={'outline'}>
+            <GitHubIcon className='size-8' />
+            <span className='sr-only'>Star on GitHub</span>
+            Star on GitHub
+          </Button>
+        </Link>
       </section>
     </div>
   )
